@@ -31,3 +31,8 @@ body {color:#000;background:#FFF; text-align: center; font: 12px/1.5 Arial, Helv
     position: absolute;
     bottom: 5px;
 }
+
+#mainMenu {
+    height: 50px;
+    background-color: coral;
+}
