@@ -14,6 +14,7 @@ class MysqlConn
     private $db_password;//  = "root";
     private $db_dbname; // = "WareHouseManagement";
     private $conn;
+    public  $lastSql;   //最後執行的sql
 
     function __construct($host, $uid, $pwd, $db)
     {
@@ -42,6 +43,7 @@ class MysqlConn
      */
     function getAllRow($sql)
     {
+        $this->lastSql = $sql;
         $row = $this->conn->query($sql);
         if($row)
         {
@@ -105,9 +107,15 @@ class MysqlConn
      * @param $sql
      * @return bool|\mysqli_result 执行一句sql
      */
-    function __query($sql)
+    public function query($sql)
     {
+        $this->lastSql = $sql;
         return $this->conn->query($sql);
+    }
+
+    public function getErr()
+    {
+        return $this->conn->error;
     }
 }
 

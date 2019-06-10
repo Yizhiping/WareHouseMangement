@@ -5,23 +5,51 @@
  * Date: 2019/6/6
  * Time: 16:15
  */
+$uid = __get('uid');
+$pwd = __get('password');
 
+if(empty($uid) || empty($pwd))
+{
+    __showMsg("账号和密码不能为空.");
+} else {
+    if($user->login($uid, $pwd))
+    {
+        header("Location:" . $homeUrl);
+    } else {
+        __showMsg("账号或密码错误, 登录失败.");
+    }
+}
 
 ?>
-
+<script type="text/javascript">
+$(document).ready(function(e) {
+    $('#btnuserLogin').click( function(e)
+	{
+		if($('#uid').val()=="" || $('#password').val() == "")
+		{
+			alert("用戶名和密碼不能為空.");
+			return false;
+		} else 
+		{
+			$('#formUserLogin').submit();
+		}
+	}
+	);
+});
+</script>
 <form id="formUserLogin" enctype="multipart/form-data" action="?act=userLogin" method="post">
     <table>
         <tr>
-            <td>账户:</td>
-            <td><input id="uid" type="text"/></td>
+            <td align="right">账户:</td>
+          <td align="left"><input id="uid" name="uid" type="text" value="<?php echo $uid ?>"/></td>
         </tr>
         <tr>
-            <td>密码:</td>
-            <td><input id="password" type="password"/></td>
+            <td align="right">密码:</td>
+          <td align="left"><input id="password" name="password" type="password" value="<?php echo $pwd ?>"/></td>
         </tr>
         <tr>
             <td></td>
-            <td><input type="submit" value="登入系统"></td>
+            <td><input type="button" name="btnUserLogin" id="btnuserLogin" value="登入系统"></td>
         </tr>
     </table>
 </form>

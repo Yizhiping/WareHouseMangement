@@ -6,12 +6,31 @@
  * Time: 13:31
  */
 
-function __get($var)
+/**
+ * @param $v    获取get/post/session变量的值, 没有的话返回null
+ * @return null
+ */
+function __get($v)
 {
-    $val = null;
-    $val = !isset($_GET[$var]) ?  $_GET[$var] : null;
-    $val = !isset($val) ? isset($_POST[$var]) ? $_POST[$var] : null : null;
-    $val = !isset($val) ? isset($_SESSION[$var]) ? $_SESSION[$var] : null : null;
-    return val;
+    $a = isset($_GET[$v]) ? $_GET[$v] : null;
+    isset($a) || $a = isset($_POST[$v]) ? $_POST[$v] : null;
+    isset($a) || $a = isset($_SESSION[$v]) ? $_SESSION[$v] : null;
+    return $a;
 }
 
+/**
+ * @param $msg 在页面上显示一个弹框信息.
+ */
+function __showMsg($msg)
+{
+    printf("<script type=text/javascript>alert(\"%s\");</script>",$msg);
+}
+
+function __getIP()
+{
+    $addr = $_SERVER["REMOTE_ADDR"];
+    if(empty($addr)) $addr = $_SERVER["HTTP_CLIENT_IP"];
+    if(empty($addr)) $addr = $_SERVER["HTTP_X_FORWARDED_FOR"];
+    if(empty($addr)) $addr = 'Unknown';
+    return $addr;
+}

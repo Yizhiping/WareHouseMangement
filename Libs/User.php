@@ -14,6 +14,9 @@ class User
     public $descirption;   //用户描述
     public $group;     //用户组
     public $mail;      //邮件
+    public $lastLogintTime;     //最后登录时间
+    public $lastLoginIP;        //最后登录地址
+    public $loginTimes;         //登录次数
     private $uconn;
     public $isLogined = false;
 
@@ -57,6 +60,20 @@ class User
                 $this->descirption = $_SESSION['description'];
                 $this->mail = $_SESSION['umail'];
                 $this->group = $_SESSION['umail'];
+
+                //更新登录信息
+                $this->lastLoginIP = __getIP();
+                $this->uconn->query("update users set LastLoginIP='{$this->lastLoginIP}', LastLoginTime=now(), LoginTimes=LoginTimes+1 where Uid='{$this->uid}'");
+                $sql = "select logintimes,lastlogintime,lastloginip from users where uid='{$this->uid}'";
+                $res = $this->uconn->getFristRow($sql);
+                $this->loginTimes = $res[0];
+                $this->lastLogintTime = $res[1];
+                $this->lastLoginIP = $res[2];
+
+                //獲取角色
+
+                //獲取權限
+
                 return true;
             } else {
                 return false;
@@ -65,6 +82,16 @@ class User
         } else {
             return false;
         }
+    }
+
+    function logout()
+    {
+        $this->isLogined = false;
+        $_SESSION = array();        //将session设置为一个空数组, 清除所有数据.
+    }
+
+    function auth()
+    {
 
     }
 
