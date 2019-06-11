@@ -39,7 +39,7 @@ if(!empty(__get('btnFunDel')))
 $funListstr = "";
 foreach ($conn->getAllRow("select code,name from fun order by Name") as $f)
 {
-    $funListstr .= "<tr><td>{$f[1]}</td><td><input type='checkbox' id='{$f[0]}' name='{$f[0]}' value='{$f[0]}'/></td></tr>";
+    $funListstr .= "<li><label for='{$f[0]}'>{$f[1]}</label><input type='checkbox' id='{$f[0]}' name='{$f[0]}' value='{$f[0]}'/></li>";
 }
 
 ?>
@@ -51,9 +51,9 @@ foreach ($conn->getAllRow("select code,name from fun order by Name") as $f)
       <input type="submit" name="btnCreateFun" id="btnCreateFun" value="創建功能" />
     </div>
     <div>
-    	<table>
+    	<ul>
             <?php echo $funListstr ?>
-        </table>
+        </ul>
         <input type="submit" name="btnFunDel" id="btnFunDel" value="刪除選擇的功能" />
     </div>
 </div>

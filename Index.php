@@ -19,6 +19,7 @@ $subact = __get('subact');
 <html>
 <meta http-equiv="content-type" content="text/html;charset=utf-8">
 <link href="Css/MainPage.css" rel="stylesheet">
+<link href="Css/ButtonStyle.css" rel="stylesheet">
 <link rel="icon" href="Favicon.ico">
 <script type="text/javascript" src="Script/jquery-1.9.1.min.js"></script>
 <script type="text/javascript" src="Script/jquery.cookie.js"></script>

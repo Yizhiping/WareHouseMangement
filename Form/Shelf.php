@@ -6,11 +6,13 @@
  * Time: 13:21
  */
 //搜索, 生成搜索表單
-$shelfSearch = __get('shelfSearch');
+
 $tabstr = "";
 $res = false;
-if(!empty($shelfSearch))
+$shelfSearch = __get('shelfSearch');
+if(!empty(__get('btnShelfSearch')))
 {
+
     $res = $conn->getAllRow("select ShelfID,Description from shelfs where ShelfID like '{$shelfSearch}'");
 //    echo $conn->lastSql;
     if($res)
@@ -77,7 +79,7 @@ $showShelfCreate = $subact=="create" ? 'block' : 'none';
             $('#divShelfCreate').show();
         });
 
-        $('#selAll').click(function (e) {
+        $('#selAll').click(function (e) {                       //全部选中或取消选择
             if($(this).is(':checked')) {
                 $('.shelfChkbox').prop('checked',true);
             } else {
@@ -86,30 +88,36 @@ $showShelfCreate = $subact=="create" ? 'block' : 'none';
         });
     });
 </script>
+<style>
+    #divShelfSearchResult td{
+        border: 1px solid #ddd;
+    }
+</style>
 <div>
   <form id="formShelf" name="formShelf" method="post" action="?act=shelf">
 		<label for="textfield">查詢條件</label>
           <input type="text" name="shelfSearch" id="shelfSearch" value="<?php echo $shelfSearch ?>"/>
-        <input type="button" name="btnShelfSearch" id="btnShelfSearch" value="查詢" />
-        <input type="button" name="btnShowShelfCreate" id="btnShowShelfCreate" value="創建儲位" /></td>
-        <input type="button" name="btnShowShelfBatchCreate" id="btnShowShelfBatchCreate" value="批量創建" />
-        <input type="button" name="btnBatchDel" id="btnShowShelfBatchCreate" value="刪除選中儲位" />
+      <?php __createButton('submit','btnShelfSearch','btnShelfSearch',null,'查詢',null,null) ?>
+      <?php __createButton('button','btnShowShelfCreate','btnShowShelfCreate',null,'創建儲位',null,null) ?>
+      <?php __createButton('submit','btnShowShelfBatchCreate','btnShowShelfBatchCreate',null,'批量創建',null,null) ?>
+      <?php __createButton('submit','btnBatchDel','btnBatchDel',null,'刪除選中儲位',null,null) ?>
   </form>
 </div>
 <div style="display:none;" id="divShelfBatchCreate">
   <form id="form2" name="form2" method="post" action="">
     <label for="textfield2"></label>
     <input type="file" name="textfield2" id="textfield2" />
-    <input type="submit" name="button3" id="button3" value="批量上傳" />
+      <?php __createButton('submit','btnBatchUpload','btnBatchUpload',null,'批量上傳',null,null) ?>
   </form>
 </div>
 <div id="divShelfCreate" style="display: <?php echo $showShelfCreate ?>;">
   <form action="?act=shelf&amp;subact=create" method="post" enctype="multipart/form-data" name="formShelfCreate" id="formShelfCreate">
     儲位名稱
+
     <input type="text" name="iptShelfCreate" id="iptShelfCreate" value="<?php echo $shelfID ?>" />
     儲位說明
     <input type="text" name="iptShelfDescription" id="iptShelfDescription" value="<?php echo $shelfDesc ?>" />
-    <input type="button" name="btnShelfCreate" id="btnShelfCreate" value="創建" />
+      <?php __createButton('button','btnShelfCreate','btnShelfCreate',null,'創建',null,null) ?>
   </form>
 </div>
 <div id="divShelfSearchResult" style="display: <?php echo $res ? 'block' : 'none' ?>">
