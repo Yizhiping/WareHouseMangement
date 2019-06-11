@@ -5,7 +5,7 @@
  * Date: 2019/6/10
  * Time: 13:21
  */
-//搜索
+//搜索, 生成搜索表單
 $shelfSearch = __get('shelfSearch');
 $tabstr = "";
 $res = false;
@@ -19,12 +19,8 @@ if(!empty($shelfSearch))
         foreach ($res as $row)
         {
             $tabstr .= '<tr>' . '<td>' . $id++ . '</td>';
-
-            foreach ($row as $item)
-            {
-                $tabstr .= "<td>" . $item . "</td>";
-            }
-            $tabstr .= "</tr>";
+            $tabstr .= "<td>{$row[0]}</td><td>{$row[1]}</td>";
+            $tabstr .= "<td><input class='shelfChkbox' type='checkbox' name='{$row[0]}' value='{$row[0]}'/></td></tr>";
         }
     }
 }
@@ -80,6 +76,14 @@ $showShelfCreate = $subact=="create" ? 'block' : 'none';
             $('#divShelfBatchCreate').hide();
             $('#divShelfCreate').show();
         });
+
+        $('#selAll').click(function (e) {
+            if($(this).is(':checked')) {
+                $('.shelfChkbox').prop('checked',true);
+            } else {
+                $('.shelfChkbox').prop('checked', false);
+            }
+        });
     });
 </script>
 <div>
@@ -89,6 +93,7 @@ $showShelfCreate = $subact=="create" ? 'block' : 'none';
         <input type="button" name="btnShelfSearch" id="btnShelfSearch" value="查詢" />
         <input type="button" name="btnShowShelfCreate" id="btnShowShelfCreate" value="創建儲位" /></td>
         <input type="button" name="btnShowShelfBatchCreate" id="btnShowShelfBatchCreate" value="批量創建" />
+        <input type="button" name="btnBatchDel" id="btnShowShelfBatchCreate" value="刪除選中儲位" />
   </form>
 </div>
 <div style="display:none;" id="divShelfBatchCreate">
@@ -113,6 +118,7 @@ $showShelfCreate = $subact=="create" ? 'block' : 'none';
             <td>項次</td>
             <td>儲位ID</td>
             <td>說明</td>
+            <td><input type="checkbox" id="selAll" name="selAll"/></td>
         </tr>
         <?php echo $tabstr   ?>
     </table>

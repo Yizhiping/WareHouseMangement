@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50553
 File Encoding         : 65001
 
-Date: 2019-06-10 18:04:54
+Date: 2019-06-11 20:00:01
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -28,10 +28,14 @@ CREATE TABLE `fun` (
 -- ----------------------------
 -- Records of fun
 -- ----------------------------
-INSERT INTO `fun` VALUES ('F001', '儲位查詢');
-INSERT INTO `fun` VALUES ('F002', '儲位增加');
-INSERT INTO `fun` VALUES ('F003', '儲位修改');
-INSERT INTO `fun` VALUES ('F004', '儲位刪除');
+INSERT INTO `fun` VALUES ('FID_5cff83f8a8e50', '用戶查詢');
+INSERT INTO `fun` VALUES ('FID_5cff83f3cc78b', '用戶創建');
+INSERT INTO `fun` VALUES ('FID_5cff84009828e', '用戶修改');
+INSERT INTO `fun` VALUES ('FID_5cff834f54be2', '儲位刪除');
+INSERT INTO `fun` VALUES ('FID_5cff8348c6aa5', '儲位修改');
+INSERT INTO `fun` VALUES ('FID_5cff8342a909e', '儲位創建');
+INSERT INTO `fun` VALUES ('FID_5cff832418531', '儲位查詢');
+INSERT INTO `fun` VALUES ('FID_5cff8405c3b06', '用戶刪除');
 
 -- ----------------------------
 -- Table structure for `groups`
@@ -59,11 +63,19 @@ CREATE TABLE `rfid` (
   UNIQUE KEY `RFID` (`id`),
   KEY `RFID-R` (`rid`),
   KEY `RFID-F` (`fid`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM AUTO_INCREMENT=62 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of rfid
 -- ----------------------------
+INSERT INTO `rfid` VALUES ('61', 'RID_5cff6e1e88eba', 'FID_5cff83f8a8e50');
+INSERT INTO `rfid` VALUES ('60', 'RID_5cff6e1e88eba', 'FID_5cff83f3cc78b');
+INSERT INTO `rfid` VALUES ('59', 'RID_5cff6e1e88eba', 'FID_5cff8405c3b06');
+INSERT INTO `rfid` VALUES ('58', 'RID_5cff6e1e88eba', 'FID_5cff84009828e');
+INSERT INTO `rfid` VALUES ('57', 'RID_5cff6e1e88eba', 'FID_5cff832418531');
+INSERT INTO `rfid` VALUES ('56', 'RID_5cff6e1e88eba', 'FID_5cff8342a909e');
+INSERT INTO `rfid` VALUES ('55', 'RID_5cff6e1e88eba', 'FID_5cff834f54be2');
+INSERT INTO `rfid` VALUES ('54', 'RID_5cff6e1e88eba', 'FID_5cff8348c6aa5');
 
 -- ----------------------------
 -- Table structure for `role`
@@ -78,9 +90,10 @@ CREATE TABLE `role` (
 -- ----------------------------
 -- Records of role
 -- ----------------------------
-INSERT INTO `role` VALUES ('R001', '管理員');
-INSERT INTO `role` VALUES ('R002', '入庫員');
-INSERT INTO `role` VALUES ('R003', '出庫員');
+INSERT INTO `role` VALUES ('RID_5cff6e2bc2b8f', '出庫員');
+INSERT INTO `role` VALUES ('RID_5cff6e263d96a', '入庫員');
+INSERT INTO `role` VALUES ('RID_5cff6e1e88eba', '管理員');
+INSERT INTO `role` VALUES ('RID_5cff6de180417', '入賬員');
 
 -- ----------------------------
 -- Table structure for `shelfs`
@@ -92,7 +105,7 @@ CREATE TABLE `shelfs` (
   `Description` char(255) DEFAULT NULL,
   UNIQUE KEY `id` (`id`),
   UNIQUE KEY `shelfID` (`ShelfID`)
-) ENGINE=MyISAM AUTO_INCREMENT=10 DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM AUTO_INCREMENT=11 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of shelfs
@@ -106,6 +119,7 @@ INSERT INTO `shelfs` VALUES ('6', '5B0102C', null);
 INSERT INTO `shelfs` VALUES ('7', '1112223', '');
 INSERT INTO `shelfs` VALUES ('8', '9632581', '123');
 INSERT INTO `shelfs` VALUES ('9', '9632587', '测试');
+INSERT INTO `shelfs` VALUES ('10', '5A0101A', '');
 
 -- ----------------------------
 -- Table structure for `urid`
@@ -118,12 +132,18 @@ CREATE TABLE `urid` (
   UNIQUE KEY `URID` (`id`),
   KEY `URID-U` (`uid`),
   KEY `URID-R` (`rid`)
-) ENGINE=MyISAM AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM AUTO_INCREMENT=74 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of urid
 -- ----------------------------
-INSERT INTO `urid` VALUES ('1', 'S09264888', 'R001');
+INSERT INTO `urid` VALUES ('63', 'admin', 'RID_5cff6e2bc2b8f');
+INSERT INTO `urid` VALUES ('64', 'admin', 'RID_5cff6e263d96a');
+INSERT INTO `urid` VALUES ('65', 'admin', 'RID_5cff6e1e88eba');
+INSERT INTO `urid` VALUES ('66', 'admin', 'RID_5cff6de180417');
+INSERT INTO `urid` VALUES ('73', 'S09264888', 'RID_5cff6de180417');
+INSERT INTO `urid` VALUES ('72', 'S09264888', 'RID_5cff6e263d96a');
+INSERT INTO `urid` VALUES ('71', 'S09264888', 'RID_5cff6e2bc2b8f');
 
 -- ----------------------------
 -- Table structure for `users`
@@ -135,16 +155,16 @@ CREATE TABLE `users` (
   `UName` char(255) NOT NULL,
   `PassWord` char(255) NOT NULL,
   `Mail` char(255) DEFAULT NULL,
-  `UDescirption` char(255) DEFAULT NULL,
+  `Descirption` char(255) DEFAULT NULL,
   `GroupName` char(255) DEFAULT NULL,
   `LastLoginTime` datetime DEFAULT NULL,
   `LoginTimes` int(11) DEFAULT NULL,
   `LastLoginIP` char(255) DEFAULT NULL,
   UNIQUE KEY `RowId` (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM AUTO_INCREMENT=7 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of users
 -- ----------------------------
-INSERT INTO `users` VALUES ('1', 'S09264888', 'S09264888', '$2y$10$Sq.Q7rqMwrdkJ38Bz8jltODzyXe5FVSelFM0P09li7hhuncxldzZy', 'Ping_yi@intra.pegatroncorp.com', 'Ping_yi', 'Admin', null, null, null);
-INSERT INTO `users` VALUES ('2', '987654321', 'S09264777', '13456', null, 'Ping_er', 'User', null, null, null);
+INSERT INTO `users` VALUES ('4', 'S09264888', '易志平', '$2y$10$KoGu4kim118zjGN.VzceYu.3zpyKNPh/MjaGZsJV2IMxcXF9Fl83a', 'Ping_yi@outlook.com', '測試', null, '2019-06-11 18:43:51', null, '127.0.0.1');
+INSERT INTO `users` VALUES ('3', 'admin', 'admin', '$2y$10$X29HAmu7Dpps7/jiJHfBTeOVdymfHBJRvJ3K7DlqIwJg98AE.aGhO', 'admin', 'admin', null, '2019-06-11 18:44:00', null, '127.0.0.1');

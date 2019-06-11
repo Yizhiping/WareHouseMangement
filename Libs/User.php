@@ -10,7 +10,7 @@ class User
 {
     public $uid;       //账号名称
     public $name;      //用户名称
-    private $pwd;       //密码
+//    private $pwd;       //密码
     public $descirption;   //用户描述
     public $group;     //用户组
     public $mail;      //邮件
@@ -69,11 +69,6 @@ class User
                 $this->loginTimes = $res[0];
                 $this->lastLogintTime = $res[1];
                 $this->lastLoginIP = $res[2];
-
-                //獲取角色
-
-                //獲取權限
-
                 return true;
             } else {
                 return false;
@@ -90,9 +85,31 @@ class User
         $_SESSION = array();        //将session设置为一个空数组, 清除所有数据.
     }
 
-    function auth()
+    /**
+     * @param $fid 業務ID, 驗證當前用戶是否有權限訪問.
+     * @return bool
+     */
+    function authByFun($fid)
     {
+        //獲取角色
+        $rids = $this->uconn->getLine("select rid from urid where uid='{$this->uid}'");
+        if(!is_array($rids)) return false;
+        $tmp = implode("','",$rids);    //生成In字串
+        if(!empty($this->uconn->getAllRow("select * from rfid where fid='{$fid}' and rid in ('{$tmp}')")))
+        {
+            return true;
+        } else {
+            __showMsg('沒有權限訪問當前業務.');
+            return false;
+        }
+    }
 
+    function authByRole($fid)
+    {
+        //獲取角色
+        $rids = $this->uconn->getLine("select rid from urid where uid='{$this->uid}'");
+        if(!is_array($rids)) return false;
+        return in_array($fid,$rids);
     }
 
 }

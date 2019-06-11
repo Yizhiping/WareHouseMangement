@@ -16,6 +16,8 @@
         <a href="?act=shelf">儲位</a>
         <a href="?act=inventory">盤點</a>
         <a href="?act=users">用戶管理</a>
+        <a href="?act=roles">角色管理</a>
+        <a href="?act=fun">功能管理</a>
         <a href="#">調整</a>
     </td>
     <td width="20%"><a href="?act=userDetail"><?php echo $user->name ?></a><a href="?act=userLogout">登出</a></td>
