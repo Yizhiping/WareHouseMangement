@@ -5,15 +5,36 @@
  * Date: 2019/6/10
  * Time: 13:21
  */
-//搜索, 生成搜索表單
 
+//刪除
+if(!empty(__get('btnBatchDel')))
+{
+    $instr = "";
+    foreach ($_POST as $k=>$v)
+    {
+        if(substr($k,0,4)=='SID_')
+        {
+            $instr .= "'{$v}',";
+            //$conn->query("delete from shelfs where ShelfID='{$v}'");
+        }
+    }
+    if(!empty($instr))
+    {
+        $instr = substr($instr,0,strlen($instr)-1);
+        $conn->query("delete from shelfs where ShelfID in ({$instr})");
+        __showMsg("刪除成功.");
+    }
+
+}
+
+//搜索, 生成搜索表單
 $tabstr = "";
 $res = false;
 $shelfSearch = __get('shelfSearch');
-if(!empty(__get('btnShelfSearch')))
+if(!empty(__get('btnShelfSearch')) || !empty(__get('btnBatchDel')))
 {
 
-    $res = $conn->getAllRow("select ShelfID,Description from shelfs where ShelfID like '{$shelfSearch}'");
+    $res = $conn->getAllRow("select ShelfID,Description from shelfs where ShelfID like '{$shelfSearch}' order by ShelfID");
 //    echo $conn->lastSql;
     if($res)
     {
@@ -22,27 +43,31 @@ if(!empty(__get('btnShelfSearch')))
         {
             $tabstr .= '<tr>' . '<td>' . $id++ . '</td>';
             $tabstr .= "<td>{$row[0]}</td><td>{$row[1]}</td>";
-            $tabstr .= "<td><input class='shelfChkbox' type='checkbox' name='{$row[0]}' value='{$row[0]}'/></td></tr>";
+            $tabstr .= "<td><input class='shelfChkbox' type='checkbox' name='SID_{$row[0]}' value='{$row[0]}'/></td></tr>";
         }
     }
 }
 
 //創建
-$shelfID = __get('iptShelfCreate');
+$shelfID = strtoupper(__get('iptShelfCreate'));
 $shelfDesc = __get('iptShelfDescription');
-if($subact == 'create' && !empty($shelfID) )
+if(!empty(__get('btnShelfCreate')) )
 {
-    if($conn->query("insert into shelfs (ShelfID, Description) value ('{$shelfID}','{$shelfDesc}')"))
+    if(preg_match('/^[1-9A-Z][A-Z][0-9][0-9][0-9][0-9][A-Z]$/',$shelfID)==1)
     {
-        __showMsg("創建成功.");
-        $shelfID = $shelfDesc = "";
+        if ($conn->query("insert into shelfs (ShelfID, Description) value ('{$shelfID}','{$shelfDesc}')")) {
+            __showMsg("創建成功.");
+            $shelfID = $shelfDesc = "";
+        } else {
+            __showMsg("創建失敗." . $conn->getErr());
+        }
     } else {
-        __showMsg("創建失敗." . $conn->getErr());
+        __showMsg("創建失敗,儲位編號格式不正確..");
     }
 }
 
 //是否顯示創建
-$showShelfCreate = $subact=="create" ? 'block' : 'none';
+$showShelfCreate = !empty(__get('btnShelfCreate')) ? 'block' : 'none';
 
 ?>
 <script type="text/javascript">
@@ -63,15 +88,16 @@ $showShelfCreate = $subact=="create" ? 'block' : 'none';
             }
         });
 
-        $('#btnShelfCreate').click(function (e) {               //單個創建
-            if($('#iptShelfCreate').val().length != 7)
-            {
-                alert("儲位ID的長度為7位,請確認.");
-                return false;
-            } else {
-                $('#formShelfCreate').submit();
-            }
-        });
+        // $('#btnShelfCreate').click(function (e) {               //單個創建
+        //     if($('#iptShelfCreate').val().length != 7)
+        //     {
+        //         alert("儲位ID的長度為7位,請確認.");
+        //         return false;
+        //     } else {
+        //         return true;
+        //         //$('#formShelfCreate').submit();
+        //     }
+        // });
         
         $('#btnShowShelfCreate').click(function (e) {           //顯示創建
             $('#divShelfSearchResult').hide();
@@ -93,32 +119,31 @@ $showShelfCreate = $subact=="create" ? 'block' : 'none';
         border: 1px solid #ddd;
     }
 </style>
+<form id="formShelf" name="formShelf" method="post" action="?act=shelf">
 <div>
-  <form id="formShelf" name="formShelf" method="post" action="?act=shelf">
+
 		<label for="textfield">查詢條件</label>
           <input type="text" name="shelfSearch" id="shelfSearch" value="<?php echo $shelfSearch ?>"/>
       <?php __createButton('submit','btnShelfSearch','btnShelfSearch',null,'查詢',null,null) ?>
       <?php __createButton('button','btnShowShelfCreate','btnShowShelfCreate',null,'創建儲位',null,null) ?>
       <?php __createButton('submit','btnShowShelfBatchCreate','btnShowShelfBatchCreate',null,'批量創建',null,null) ?>
       <?php __createButton('submit','btnBatchDel','btnBatchDel',null,'刪除選中儲位',null,null) ?>
-  </form>
+
 </div>
 <div style="display:none;" id="divShelfBatchCreate">
-  <form id="form2" name="form2" method="post" action="">
+
     <label for="textfield2"></label>
     <input type="file" name="textfield2" id="textfield2" />
       <?php __createButton('submit','btnBatchUpload','btnBatchUpload',null,'批量上傳',null,null) ?>
-  </form>
+
 </div>
 <div id="divShelfCreate" style="display: <?php echo $showShelfCreate ?>;">
-  <form action="?act=shelf&amp;subact=create" method="post" enctype="multipart/form-data" name="formShelfCreate" id="formShelfCreate">
-    儲位名稱
-
+    <label for="iptShelfCreate">儲位編號</label>
     <input type="text" name="iptShelfCreate" id="iptShelfCreate" value="<?php echo $shelfID ?>" />
-    儲位說明
+    <label for="iptShelfDescription">儲位說明</label>
     <input type="text" name="iptShelfDescription" id="iptShelfDescription" value="<?php echo $shelfDesc ?>" />
-      <?php __createButton('button','btnShelfCreate','btnShelfCreate',null,'創建',null,null) ?>
-  </form>
+      <?php __createButton('submit','btnShelfCreate','btnShelfCreate',null,'創建',null,null) ?>
+
 </div>
 <div id="divShelfSearchResult" style="display: <?php echo $res ? 'block' : 'none' ?>">
     <table>
@@ -131,3 +156,4 @@ $showShelfCreate = $subact=="create" ? 'block' : 'none';
         <?php echo $tabstr   ?>
     </table>
 </div>
+</form>
