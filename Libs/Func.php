@@ -62,3 +62,32 @@ function __createButton($type, $name, $id, $class, $val, $link, $lab=null)
     }
     echo $htmlCode;
 }
+
+/** 創建一個下拉清單
+ * @param $listArr  清單數組
+ * @param null $name    名稱
+ * @param null $id  id
+ * @param null $class   類名
+ * @param null $defaultVal  默認值
+ * @param null $lab 標籤, 不賦值時不顯示標籤
+ * @param false $disable 是否禁用
+ */
+function __createList($listArr, $name=null, $id=null, $class=null, $defaultVal=null, $lab=null, $disable=false)
+{
+    $html = null;
+    if(!empty($lab)) $html .= "<lable for='{$name}'>{$lab}</lable>";
+    $html .= "<select id='{$id}' name='{$name}' class='$class' ";
+    $html .= $disable==true ? "disabled='disabled'>" : ">";
+    $html .= "<option value='null'>請選擇</option>";
+    foreach ($listArr as $i)
+    {
+        if($i == $defaultVal)
+        {
+            $html .= "<option value='{$i}' selected='selected'>{$i}</option>";
+        } else {
+            $html .= "<option value='{$i}'>{$i}</option>";
+        }
+    }
+    $html .= "</select>";
+    echo $html;
+}

@@ -24,7 +24,8 @@ $db_name = "WareHouseManagement";
 
 /**********************一些参数**************************/
 $homeUrl = "Index.php";     //默认页面
-
+$opid = 'S09264888';        //系統調用SFIS用到的工號
+$device = '111111';         //系統調用SFIS用到的撥號
 
 
 

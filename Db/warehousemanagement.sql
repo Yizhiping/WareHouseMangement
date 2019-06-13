@@ -10,10 +10,42 @@ Target Server Type    : MYSQL
 Target Server Version : 50553
 File Encoding         : 65001
 
-Date: 2019-06-11 20:00:01
+Date: 2019-06-13 20:22:28
 */
 
 SET FOREIGN_KEY_CHECKS=0;
+
+-- ----------------------------
+-- Table structure for `customermapping`
+-- ----------------------------
+DROP TABLE IF EXISTS `customermapping`;
+CREATE TABLE `customermapping` (
+  `Customer` char(255) NOT NULL,
+  `Item` char(255) NOT NULL
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+
+-- ----------------------------
+-- Records of customermapping
+-- ----------------------------
+INSERT INTO `customermapping` VALUES ('ARRIS', '');
+
+-- ----------------------------
+-- Table structure for `events`
+-- ----------------------------
+DROP TABLE IF EXISTS `events`;
+CREATE TABLE `events` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `eventType` char(255) NOT NULL,
+  `FunId` char(255) NOT NULL,
+  `Description` char(255) NOT NULL,
+  `eTime` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00' ON UPDATE CURRENT_TIMESTAMP,
+  `uid` char(255) NOT NULL,
+  UNIQUE KEY `id` (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+
+-- ----------------------------
+-- Records of events
+-- ----------------------------
 
 -- ----------------------------
 -- Table structure for `fun`
@@ -36,6 +68,57 @@ INSERT INTO `fun` VALUES ('FID_5cff8348c6aa5', '儲位修改');
 INSERT INTO `fun` VALUES ('FID_5cff8342a909e', '儲位創建');
 INSERT INTO `fun` VALUES ('FID_5cff832418531', '儲位查詢');
 INSERT INTO `fun` VALUES ('FID_5cff8405c3b06', '用戶刪除');
+
+-- ----------------------------
+-- Table structure for `goods`
+-- ----------------------------
+DROP TABLE IF EXISTS `goods`;
+CREATE TABLE `goods` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `PalletId` char(255) NOT NULL,
+  `Model` char(255) NOT NULL,
+  `Item` char(255) NOT NULL,
+  `SO` char(255) NOT NULL,
+  `Qty` char(255) NOT NULL,
+  `Customer` char(255) DEFAULT NULL,
+  `ShelfId` char(255) NOT NULL,
+  `Uid` char(255) DEFAULT NULL,
+  `Datein` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00' ON UPDATE CURRENT_TIMESTAMP,
+  UNIQUE KEY `id` (`id`),
+  UNIQUE KEY `palletId` (`PalletId`)
+) ENGINE=MyISAM AUTO_INCREMENT=7 DEFAULT CHARSET=utf8;
+
+-- ----------------------------
+-- Records of goods
+-- ----------------------------
+INSERT INTO `goods` VALUES ('1', 'W000805714-005', 'TG2482A', '90B2AA100040', 'W000805714', '120', null, '5A0101H', 'admin', '0000-00-00 00:00:00');
+INSERT INTO `goods` VALUES ('2', 'Z21924407', 'IPC4100', '90B3-9A10010', 'W000802766', '360', null, '5A0101B', 'admin', '0000-00-00 00:00:00');
+INSERT INTO `goods` VALUES ('3', 'W000795898-033', 'TG2482A', '90B2-AA10040', 'W000795898', '120', null, '5A0101A', 'admin', '0000-00-00 00:00:00');
+INSERT INTO `goods` VALUES ('4', 'W000805714-042', 'TG2482A', '90B2AA100040', 'W000805714', '120', null, '5A0101H', 'admin', '0000-00-00 00:00:00');
+INSERT INTO `goods` VALUES ('5', 'W000805714-006', 'TG2482A', '90B2AA100040', 'W000805714', '120', null, '5A0101G', 'admin', '0000-00-00 00:00:00');
+INSERT INTO `goods` VALUES ('6', 'Z41924307', 'PS5200IMC', '90B399100010', 'W000802769', '320', null, '5A0101B', 'admin', '0000-00-00 00:00:00');
+
+-- ----------------------------
+-- Table structure for `goods_shipped`
+-- ----------------------------
+DROP TABLE IF EXISTS `goods_shipped`;
+CREATE TABLE `goods_shipped` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `PalletId` char(255) NOT NULL,
+  `Model` char(255) NOT NULL,
+  `Item` char(255) NOT NULL,
+  `SO` char(255) NOT NULL,
+  `Qty` char(255) NOT NULL,
+  `Customer` char(255) DEFAULT NULL,
+  `Uid` char(255) DEFAULT NULL,
+  `Datein` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00' ON UPDATE CURRENT_TIMESTAMP,
+  UNIQUE KEY `id` (`id`),
+  UNIQUE KEY `palletId` (`PalletId`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+
+-- ----------------------------
+-- Records of goods_shipped
+-- ----------------------------
 
 -- ----------------------------
 -- Table structure for `groups`
@@ -105,21 +188,19 @@ CREATE TABLE `shelfs` (
   `Description` char(255) DEFAULT NULL,
   UNIQUE KEY `id` (`id`),
   UNIQUE KEY `shelfID` (`ShelfID`)
-) ENGINE=MyISAM AUTO_INCREMENT=11 DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM AUTO_INCREMENT=23 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of shelfs
 -- ----------------------------
-INSERT INTO `shelfs` VALUES ('1', '5B0101A', null);
-INSERT INTO `shelfs` VALUES ('2', '5B0101B', null);
-INSERT INTO `shelfs` VALUES ('3', '5B0101C', null);
-INSERT INTO `shelfs` VALUES ('4', '5B0102A', null);
-INSERT INTO `shelfs` VALUES ('5', '5B0102B', null);
-INSERT INTO `shelfs` VALUES ('6', '5B0102C', null);
-INSERT INTO `shelfs` VALUES ('7', '1112223', '');
-INSERT INTO `shelfs` VALUES ('8', '9632581', '123');
-INSERT INTO `shelfs` VALUES ('9', '9632587', '测试');
-INSERT INTO `shelfs` VALUES ('10', '5A0101A', '');
+INSERT INTO `shelfs` VALUES ('21', '5A0101G', '');
+INSERT INTO `shelfs` VALUES ('20', '5A0101F', '');
+INSERT INTO `shelfs` VALUES ('19', '5A0101E', '');
+INSERT INTO `shelfs` VALUES ('18', '5A0101D', '');
+INSERT INTO `shelfs` VALUES ('17', '5A0101C', '');
+INSERT INTO `shelfs` VALUES ('16', '5A0101B', '');
+INSERT INTO `shelfs` VALUES ('22', '5A0101H', '');
+INSERT INTO `shelfs` VALUES ('15', '5A0101A', '');
 
 -- ----------------------------
 -- Table structure for `urid`
@@ -167,4 +248,4 @@ CREATE TABLE `users` (
 -- Records of users
 -- ----------------------------
 INSERT INTO `users` VALUES ('4', 'S09264888', '易志平', '$2y$10$KoGu4kim118zjGN.VzceYu.3zpyKNPh/MjaGZsJV2IMxcXF9Fl83a', 'Ping_yi@outlook.com', '測試', null, '2019-06-11 18:43:51', null, '127.0.0.1');
-INSERT INTO `users` VALUES ('3', 'admin', 'admin', '$2y$10$X29HAmu7Dpps7/jiJHfBTeOVdymfHBJRvJ3K7DlqIwJg98AE.aGhO', 'admin', 'admin', null, '2019-06-11 18:44:00', null, '127.0.0.1');
+INSERT INTO `users` VALUES ('3', 'admin', 'admin', '$2y$10$X29HAmu7Dpps7/jiJHfBTeOVdymfHBJRvJ3K7DlqIwJg98AE.aGhO', 'admin', 'admin', null, '2019-06-13 12:55:25', null, '127.0.0.1');

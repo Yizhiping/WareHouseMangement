@@ -8,15 +8,18 @@
 $uid = __get('uid');
 $pwd = __get('password');
 
-if(empty($uid) || empty($pwd))
+if(!empty(__get('btnUserLogin')))
 {
-    __showMsg("账号和密码不能为空.");
-} else {
-    if($user->login($uid, $pwd))
+    if(empty($uid) || empty($pwd))
     {
-        header("Location:" . $homeUrl);
+        __showMsg("账号和密码不能为空.");
     } else {
-        __showMsg("账号或密码错误, 登录失败.");
+        if($user->login($uid, $pwd))
+        {
+            header("Location:" . $homeUrl);
+        } else {
+            __showMsg("账号或密码错误, 登录失败.");
+        }
     }
 }
 
@@ -31,7 +34,7 @@ $(document).ready(function(e) {
 			return false;
 		} else 
 		{
-			$('#formUserLogin').submit();
+            return true;
 		}
 	}
 	);
@@ -49,7 +52,7 @@ $(document).ready(function(e) {
         </tr>
         <tr>
             <td></td>
-            <td><input type="button" name="btnUserLogin" id="btnuserLogin" value="登入系统"></td>
+            <td><input type="submit" name="btnUserLogin" id="btnUserLogin" value="登入系统"></td>
         </tr>
     </table>
 </form>
