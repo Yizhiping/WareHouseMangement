@@ -47,14 +47,15 @@ foreach ($conn->getAllRow("select code,name from fun order by Name") as $f)
 <div>
     <div>
       <label for="iptFunDesc">功能描述</label>
-      <input type="text" name="iptFunDesc" id="iptFunDesc" />
+      <input type="text" name="iptFunDesc" id="iptFunDesc" style="width: 150px;" />
       <input type="submit" name="btnCreateFun" id="btnCreateFun" value="創建功能" />
+        <input type="submit" name="btnFunDel" id="btnFunDel" value="刪除選擇的功能" />
     </div>
     <div>
     	<ul>
             <?php echo $funListstr ?>
         </ul>
-        <input type="submit" name="btnFunDel" id="btnFunDel" value="刪除選擇的功能" />
+
     </div>
 </div>
 </form>

@@ -103,9 +103,9 @@ if(true)
         {
             $palletInfoStr .= "<input type='radio' id='{$v}' name='shelfId' value='{$v}'/><label for='{$v}'>{$v}</label>";
         }
-        $palletInfoStr .= "<input type='radio' id='selNewShelfId' name='shelfId' value='newShelfId'/><label for='newShelfId'>新儲位</label>";
+        $palletInfoStr .= "<div id='divNewShelfId' style='display:none'><input type='radio' id='selNewShelfId' name='shelfId' value='newShelfId'/><label for='newShelfId'>新儲位</label>";
     } else {
-        $palletInfoStr .= "<input type='radio' id='selNewShelfId' name='shelfId' value='newShelfId' checked='checked'/><label for='newShelfId'>新儲位</label>";
+        $palletInfoStr .= "<div id='divNewShelfId' style='display:block'><input type='radio' id='selNewShelfId' name='shelfId' value='newShelfId' checked='checked'/><label for='newShelfId'>新儲位</label>";
     }
     //最後一個選項是新儲位, 顯示儲位清單. 如果是新訂單, 則該選項默認被選擇
 }
@@ -134,20 +134,20 @@ if(true)
 <div>
     <form method="post">
         <div>
-            <label for="isn">請輸入條碼:</label>
+            <label for="isn">查詢條碼:</label>
             <input type="text" id="isn" name="isn"/>
             <input type="submit" id="btnSearch" name="btnSearch" value="查詢">
             <input type="submit" id="btnGoodIn" name="btnGoodsIn" value="確定入庫">
         </div>
         <div>
         <?php
-            echo $palletInfoStr . EOL;
+            echo $palletInfoStr;
             //如果是新進訂單, 則默認顯示儲位清單, 否則默認不顯示
-            if($existShelfid != false) {
-                echo "<div id='divNewShelfId' style='display:none'>";
-                } else {
-                echo "<div id='divNewShelfId' style='display:block'>";
-            }
+//            if($existShelfid != false) {
+//                echo "<div id='divNewShelfId' style='display:none'>";
+//                } else {
+//                echo "<div id='divNewShelfId' style='display:block'>";
+//            }
             __createList($conn->getLine('select shelfId from shelfs order by ShelfID'), 'newShelfId', 'newShelfId',null, $newShelfId );
             echo "</div>";
         ?>

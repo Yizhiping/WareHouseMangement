@@ -20,6 +20,7 @@ $subact = __get('subact');
 <meta http-equiv="content-type" content="text/html;charset=utf-8">
 <link href="Css/MainPage.css" rel="stylesheet">
 <link href="Css/ButtonStyle.css" rel="stylesheet">
+<link href="Css/InputStyle.css" rel="stylesheet">
 <link rel="icon" href="Favicon.ico">
 <script type="text/javascript" src="Script/jquery-1.9.1.min.js"></script>
 <script type="text/javascript" src="Script/jquery.cookie.js"></script>
@@ -29,7 +30,7 @@ $subact = __get('subact');
 </head>
 <body>
 <div id="Container">
-    <div id="header">成倉管理系統 </div>
+    <div id="header">成倉管理系統</div>
     <div id="main">
         <div id="mainMenu">
             <?php
@@ -59,5 +60,4 @@ $subact = __get('subact');
     <div id="footer">底部（footer）</div>
 </div>
 </body>
-
 </html>

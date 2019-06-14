@@ -6,8 +6,6 @@
  * Time: 9:52
  */
 
-//$act = __get('act');
-
 switch ($act)
 {
     case "userLogout":
@@ -29,4 +27,5 @@ switch ($act)
         break;
 }
 
-pageEnd:
+#顯示彈窗信息
+__showMsgList();

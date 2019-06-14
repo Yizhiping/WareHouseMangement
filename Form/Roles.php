@@ -57,9 +57,9 @@ $checkBoxStr = "";
 foreach ($funList as $f)
 {
     if(in_array($f[0],$rfids)) {
-        $checkBoxStr .= "<label for='{$f[0]}'>{$f[1]}</label><input type='checkbox' name='{$f[0]}' id='{$f[0]}' value='{$f[0]}' checked='checked'/>";
+        $checkBoxStr .= "<div><span class='title'>{$f[1]}</span><input type='checkbox' name='{$f[0]}' id='{$f[0]}' value='{$f[0]}' checked='checked'/></div>";
     } else {
-        $checkBoxStr .= "<label for='{$f[0]}'>{$f[1]}</label><input type='checkbox' name='{$f[0]}' id='{$f[0]}' value='{$f[0]}'/>";
+        $checkBoxStr .= "<div><span class='title'>{$f[1]}</span><input type='checkbox' name='{$f[0]}' id='{$f[0]}' value='{$f[0]}'/></div>";
     }
 }
 
@@ -77,12 +77,23 @@ foreach ($roleList as $r)
 
 
  ?>
+<style>
+    #divRoleList
+    {
+        width: 120px;
+        margin-top: 5px;;
+    }
+    #divRoleList div{
+        margin-bottom: 5px;
+        float: right;
+    }
+</style>
  <form action="?act=roles" method="post" enctype="multipart/form-data" name="formRole">
    <div>
 <!--     <label for="iptRid">創建角色:</label>-->
-<!--      <input type="text" name="iptRid" id="iptRid" />-->
+<!--      <input type="text" name="iptRid" id="iptRid" style="width: 150px;" />-->
       <label for="iptRoleDesc">角色描述</label>
-      <input type="text" name="iptRoleDesc" id="iptRoleDesc" />
+      <input type="text" name="iptRoleDesc" id="iptRoleDesc" style="width: 150px;"  />
 <input type="submit" name="btnRoleCreate" id="btnRoleCreate" value="創建角色" />
    </div>
    <div>
@@ -95,7 +106,7 @@ foreach ($roleList as $r)
    <input type="submit" name="btnGetRoleInfo" id="btnGetRoleInfo" value="獲取角色權限" />
    <input type="submit" name="btnUpdateRoleInfo" id="btnUpdateRoleInfo" value="更新角色權限" />
    </div>
-     <div>
+     <div id="divRoleList">
          <?php echo $checkBoxStr ?>
      </div>
 

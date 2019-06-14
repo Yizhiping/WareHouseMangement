@@ -11,26 +11,35 @@
         display: block;
         border: 1px solid black;
         color: black;
-        height: 20px;
+        height: 30px;
         width: 80px;
         float:left;
         text-align: center;
         font-size:16px;
-        line-height:20px;
-        margin-right: 2px;
+        line-height:30px;
+        margin-right: 5px;
         border-radius: 5px;
         text-decoration: none;
         padding: 2px 2px 1px;
     }
 
     #divMainMenu table tr td a:hover {
-        border-left: 1px solid blue;
-        border-top: 1px solid blue;
-        border-right:  3px solid red;
-        border-bottom:  3px solid red;
+             border-left: 1px solid red;
+             border-top: 1px solid red;
+             border-right:  1px solid red;
+             border-bottom:  1px solid red;
+             font-weight: bold;
+             background-color: #000;
+             color: #fff;
+         }
+    #divMainMenu table tr td a:active  {
+        border-left: 1px solid red;
+        border-top: 1px solid red;
+        border-right:  1px solid red;
+        border-bottom:  1px solid red;
         font-weight: bold;
-        background-color: #000;
-        color: #fff;
+        background-color: greenyellow;
+        color: #000;
     }
 </style>
 <div id="divMainMenu">

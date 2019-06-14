@@ -150,7 +150,7 @@ if(!empty($btnGoodsChange))
   <input type="text" name="isn" id="isn" value="<?php echo $isn ?>"/>
   <input type="submit" name="btnSearchGoods" id="btnSearchGoods" value="查詢" />
   <input type="submit" name="btnGoodsOut" id="btnGoodsOut" value="出貨選定貨物" />
-    <a href="#" class="button" id="btnShowShelfChange">變更儲位</a>
+    <input type="button" id="btnShowShelfChange" name="btnShowShelfChange" value=" 變更儲位" />
     <div id="divShelfChange" style="display: none;">
         <label for="iptTargetShelf">目標儲位:</label>
         <?php __createList($conn->getLine('select shelfId from shelfs order by ShelfID'), 'tragetShelf', 'tragetShelf',null, $tragetShelf ); ?>

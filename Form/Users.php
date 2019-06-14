@@ -43,6 +43,8 @@ if(!empty(__get('btnUserAdd')))   //添加用戶
     }
 }
 
+
+
 $uid = __get('userID');         //當前頁面操作的用戶ID
 //刪除用戶
 if(!empty(__get('btnUserDel')))
@@ -93,14 +95,23 @@ foreach ( $roles as $r)
 {
     if(in_array($r[1],$urids))
     {
-        $roleChkBoxstr .= "<label for='{$r[1]}'>{$r[0]}</label><input type='checkbox' name='{$r[1]}' id='{$r[1]}' value='{$r[0]}' checked='checked'/>";
+        $roleChkBoxstr .= "<div><label for='{$r[1]}' class='title'>{$r[0]}</label><input type='checkbox' name='{$r[1]}' id='{$r[1]}' value='{$r[0]}' checked='checked'/></div>";
     } else {
-        $roleChkBoxstr .= "<label for='{$r[1]}'>{$r[0]}</label><input type='checkbox' name='{$r[1]}' id='{$r[1]}' value='{$r[0]}'/>";
+        $roleChkBoxstr .= "<div><label for='{$r[1]}' class='title'>{$r[0]}</label><input type='checkbox' name='{$r[1]}' id='{$r[1]}' value='{$r[0]}'/></div>";
     }
 }
 
 ?>
-
+<style>
+    #divUserAdd input {
+        width: 100px;;
+    }
+    #divRoleList div{
+        margin-bottom: 5px;
+        height: 30px;
+        float: right;
+    }
+</style>
 <div id="divUserAdd">
     <form action="?act=users&amp;subact=useradd" method="post" enctype="multipart/form-data" id="formUserAdd">
 
@@ -129,7 +140,7 @@ foreach ( $roles as $r)
       <input type="submit" name="btnUserDel" id="btnUserDel" value="刪除用戶" />
     <input type="submit" name="btnGetRole" id="btnGetRole" value="獲取用戶角色" />
       <input type="submit" name="btnUpdateRole" id="btnUpdateRole" value="更新用戶角色" />
-      <div><?php echo $roleChkBoxstr ?></div>
+      <div id="divRoleList" style="width: 120px; margin-top: 5px;"><?php echo $roleChkBoxstr ?></div>
     
   </form>
 </div>
