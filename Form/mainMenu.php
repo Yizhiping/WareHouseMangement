@@ -20,7 +20,7 @@
         margin-right: 2px;
         border-radius: 5px;
         text-decoration: none;
-
+        padding: 2px 2px 1px;
     }
 
     #divMainMenu table tr td a:hover {
@@ -42,10 +42,16 @@
             <a href="?act=goodsout">出庫</a>
             <a href="?act=shelf">儲位</a>
             <a href="?act=inventory">盤點</a>
-            <a href="?act=users">用戶管理</a>
-            <a href="?act=roles">角色管理</a>
-            <a href="?act=fun">功能管理</a>
-            <a href="#">調整</a>
+            <?php
+            if($user->authByRole("管理員",false))
+            {
+                echo '
+                    <a href="?act=users">用戶管理</a>
+                    <a href="?act=roles">角色管理</a>
+                    <a href="?act=fun">功能管理</a>
+                    ';
+            }
+            ?>
         </td>
         <td width="20%"><a href="?act=userDetail"><?php echo $user->name ?></a><a href="?act=userLogout">登出</a></td>
       </tr>

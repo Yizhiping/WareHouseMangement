@@ -6,9 +6,9 @@
  * Time: 17:11
  */
 
-
-//業務ID-> F006
-if(!empty(__get('btnUserAdd')) && $user->authByFun('F006'))   //添加用戶
+if(!$user->authByRole('管理員')) goto pageEnd;
+//var_dump($user->authByFun('用戶創',true));
+if(!empty(__get('btnUserAdd')))   //添加用戶
 {
     $uid = __get('uid');
     $uname = __get('uname');
@@ -30,6 +30,7 @@ if(!empty(__get('btnUserAdd')) && $user->authByFun('F006'))   //添加用戶
                     '{$desc}')";
     if(empty($conn->query("select uid from users where Uid='{$uid}'")))
     {
+        echo $conn->lastSql;
         if($conn->query($sql))
         {
             __showMsg('用戶添加成功');
@@ -132,3 +133,5 @@ foreach ( $roles as $r)
     
   </form>
 </div>
+
+<?php pageEnd: ?>

@@ -94,10 +94,10 @@ class MysqlConn
      */
     function getItemByItemName($sql)
     {
-        $res = $this->getRow($sql);
+        $res = $this->getAllRow($sql);
         if(sizeof($res)>0)
         {
-            return $res[0];
+            return $res[0][0];
         } else {
             return false;
         }

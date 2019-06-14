@@ -31,7 +31,7 @@
   </tr>
   <tr>
     <td align="right">最後登錄時間:</td>
-    <td align="left"><?php echo $user->lastLogintTime ?></td>
+    <td align="left"><?php echo $user->lastLoginTime ?></td>
   </tr>
   <tr>
     <td align="right">最後登錄地址:</td>

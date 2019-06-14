@@ -27,16 +27,6 @@ switch ($act)
             }
         }
         break;
-//
-//    case "userDetail":      //查看當前賬號信息, 改密碼等.
-//        include "Form/UserDetail.php";
-//        break;
-//
-//    case "shelf":           //儲位管理
-//        include "Form/Shelf.php";
-//        break;
-//
-//    case "users":           //
-//        include "Form/Users.php";
-//        break;
 }
+
+pageEnd:

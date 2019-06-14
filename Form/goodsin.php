@@ -5,23 +5,18 @@
  * Date: 2019/6/13
  * Time: 13:19
  */
-require_once "Libs/WebService.php";
+require_once "Libs/WebService.php";     //WebService庫
+require_once "Libs/Goods.php";          //貨物庫
 
 //定義變量
 $palletInfoStr = '';
 $isn = $sfisISN = $item = $pallet = $so = $qty = $model = null;
-$shelfid = __get('shelfid');    //儲位ID
+$shelfId = __get('shelfId');    //儲位ID
 $existShelfid = false;      //已經存在的儲位ID
-//$palletInfo = array(
-//    'item'      => null,
-//    'pallet'    => null,
-//    'so'        => null,
-//    'qty'       => 0,
-//    'model'     => null
-//);
-//表單讀取
 $isn = __get('isn');
 $newShelfId = __get('newShelfId');
+$goods = new Goods();
+$palletInfo = $goods->samplePalletInfo;
 
 //查詢輸入條碼的產品信息
 if(!empty(__get('btnSearch')))
@@ -40,7 +35,7 @@ if(!empty(__get('btnSearch')))
                 $so     = $palletInfo['so'];
                 $qty    = $palletInfo['qty'];
                 $item   = $palletInfo['item'];
-                $existShelfid = $conn->getLine("select shelfid from goods where SO='{$so}' group by ShelfId");
+                $existShelfid = $conn->getLine("select shelfId from goods where SO='{$so}' group by ShelfId");
             } else {
                 __showMsg('無法查詢到輸入條碼的棧板信息, 請確認.');
             }
@@ -60,25 +55,33 @@ if(!empty(__get('btnSearch')))
 if(!empty(__get('btnGoodsIn')))
 {
     //如果儲位名稱不是newShelfId, 說明選擇的是已有的儲位, 否則讀取newShelfId
-    $shelfid = __get('shelfid');
-    if($shelfid == 'newShelfId')
+    $shelfId = __get('shelfId');
+    if($shelfId == 'newShelfId')
     {
-        $shelfid = __get('newShelfId');
+        $shelfId = __get('newShelfId');
     }
 
     //判斷一下儲位ID, 如果為null說明沒有進行選擇.
-    if(strlen($shelfid) == 7)
+    if(strlen($shelfId) == 7)
     {
-        $sql = "insert into goods (PalletId, Model, Item, SO, Qty, Customer, ShelfId, Uid) value (
-                '{$pallet}','{$model}','{$item}','{$so}',{$qty},null,'{$shelfid}','{$user->uid}')";
-        if($conn->query($sql))
+        $palletInfo['palletId'] = $pallet;
+        $palletInfo['model']    = $model;
+        $palletInfo['item']     = $item;
+        $palletInfo['so']       = $so;
+        $palletInfo['qty']      = $qty;
+        $palletInfo['customer'] = null;
+        $palletInfo['shelfId']  = $shelfId;
+        $palletInfo['uid']      = $user->uid;
+
+        if($goods->putGoods($palletInfo))
         {
             __showMsg('棧板入庫成功');
         } else {
             __showMsg('棧板入賬失敗' . $conn->getErr());
         }
+
         //無論入庫成功與否, 都清空資料, 防止錯誤.
-        $pallet = $model = $item = $so = $shelfid = $qty = $newShelfId = null;
+        $pallet = $model = $item = $so = $shelfId = $qty = $newShelfId = null;
         $existShelfid = false;
     } else {
         __showMsg('資料格式不正確,請確認儲位是否選擇好.');
@@ -98,11 +101,11 @@ if(true)
         $palletInfoStr .= '<span>選擇一個儲位</span>';
         foreach ($existShelfid as $v)
         {
-            $palletInfoStr .= "<input type='radio' id='{$v}' name='shelfid' value='{$v}'/><label for='{$v}'>{$v}</label>";
+            $palletInfoStr .= "<input type='radio' id='{$v}' name='shelfId' value='{$v}'/><label for='{$v}'>{$v}</label>";
         }
-        $palletInfoStr .= "<input type='radio' id='selNewShelfId' name='shelfid' value='newShelfId'/><label for='newShelfId'>新儲位</label>";
+        $palletInfoStr .= "<input type='radio' id='selNewShelfId' name='shelfId' value='newShelfId'/><label for='newShelfId'>新儲位</label>";
     } else {
-        $palletInfoStr .= "<input type='radio' id='selNewShelfId' name='shelfid' value='newShelfId' checked='checked'/><label for='newShelfId'>新儲位</label>";
+        $palletInfoStr .= "<input type='radio' id='selNewShelfId' name='shelfId' value='newShelfId' checked='checked'/><label for='newShelfId'>新儲位</label>";
     }
     //最後一個選項是新儲位, 顯示儲位清單. 如果是新訂單, 則該選項默認被選擇
 }
@@ -145,7 +148,7 @@ if(true)
                 } else {
                 echo "<div id='divNewShelfId' style='display:block'>";
             }
-            __createList($conn->getLine('select shelfid from shelfs order by ShelfID'), 'newShelfId', 'newShelfId',null, $newShelfId );
+            __createList($conn->getLine('select shelfId from shelfs order by ShelfID'), 'newShelfId', 'newShelfId',null, $newShelfId );
             echo "</div>";
         ?>
         </div>
