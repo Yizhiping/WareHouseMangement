@@ -7,52 +7,39 @@
  */
 
 if(!$user->authByRole('管理員')) goto pageEnd;
-//var_dump($user->authByFun('用戶創',true));
+
 if(!empty(__get('btnUserAdd')))   //添加用戶
 {
-    $uid = __get('uid');
-    $uname = __get('uname');
-    $pwd = password_hash(__get('password'),PASSWORD_DEFAULT);
-    $mail = __get('mail');
-    $desc = __get('description');
+    $userInfo = $user->sampleUserInfo;
+    $userInfo['uid'] = __get('uid');
+    $userInfo['name'] = __get('uname');
+    $userInfo['pwd'] = password_hash(__get('password'),PASSWORD_DEFAULT);
+    $userInfo['desc'] = __get('description');
+    $userInfo['mail'] = __get('mail');
 
-    $sql = "insert into users (
-                                  Uid, 
-                                  UName, 
-                                  PassWord, 
-                                  Mail, 
-                                  Descirption ) 
-            value (
-                    '{$uid}',
-                    '{$uname}',
-                    '{$pwd}',
-                    '{$mail}',
-                    '{$desc}')";
-    if(empty($conn->query("select uid from users where Uid='{$uid}'")))
+    if(empty($userInfo['uid']) || empty($userInfo['pwd']))
     {
-        echo $conn->lastSql;
-        if($conn->query($sql))
-        {
+        __showMsg('用戶創建失敗, 用戶名和密碼不能為空.');
+    } else {
+        if ($user->userAdd($userInfo)) {
             __showMsg('用戶添加成功');
         } else {
-            __showMsg('用戶添加失敗,'. $conn->getErr());
+            __showMsg("用戶添加失敗" . $user->uconn->getErr());
         }
-    } else
-    {
-        __showMsg('用戶添加失敗, 用戶名已存在.');
     }
 }
-
-
 
 $uid = __get('userID');         //當前頁面操作的用戶ID
 //刪除用戶
 if(!empty(__get('btnUserDel')))
 {
     //從用戶表,角色表刪除
-    $conn->query("delete from urid where Uid='{$uid}'");
-    $conn->query("delete from users where Uid='{$uid}'");
-    __showMsg('用戶刪除成功.');
+    if($user->userDelete($uid))
+    {
+        __showMsg('用戶刪除成功.');
+    } else {
+        __showMsg('用戶刪除失敗');
+    }
 
     //為接下來的操作賦值當前用戶為空,
     $uid = "";
@@ -78,11 +65,15 @@ $roles = $conn->getAllRow("select name,code from role");
 if(!empty(__get('btnUpdateRole')))
 {
     //刪除原有角色
-    $conn->query("delete from urid where uid='{$uid}'");
+    $user->delByUserFromURID($uid);
+
     //插入角色信息
     foreach ($roles as $r)
     {
-        if(!empty(__get($r[1])))  $conn->query("insert into urid (uid, rid) value ('{$uid}','{$r[1]}')");
+        if(!empty(__get($r[1])))
+        {
+            $user->addByUserToURID($uid,$r[1]);
+        }
     }
     __showMsg("角色信息更新成功.");
 }
@@ -95,23 +86,24 @@ foreach ( $roles as $r)
 {
     if(in_array($r[1],$urids))
     {
-        $roleChkBoxstr .= "<div><label for='{$r[1]}' class='title'>{$r[0]}</label><input type='checkbox' name='{$r[1]}' id='{$r[1]}' value='{$r[0]}' checked='checked'/></div>";
+        $roleChkBoxstr .= "<div><label for='{$r[1]}'>{$r[0]}</label><input type='checkbox' name='{$r[1]}' id='{$r[1]}' value='{$r[0]}' checked='checked'/></div>";
     } else {
-        $roleChkBoxstr .= "<div><label for='{$r[1]}' class='title'>{$r[0]}</label><input type='checkbox' name='{$r[1]}' id='{$r[1]}' value='{$r[0]}'/></div>";
+        $roleChkBoxstr .= "<div><label for='{$r[1]}'>{$r[0]}</label><input type='checkbox' name='{$r[1]}' id='{$r[1]}' value='{$r[0]}'/></div>";
     }
 }
 
 ?>
-<style>
-    #divUserAdd input {
-        width: 100px;;
-    }
-    #divRoleList div{
-        margin-bottom: 5px;
-        height: 30px;
-        float: right;
-    }
-</style>
+<script type="text/javascript">
+    $(document).ready(function (e) {
+        $('#btnUserAdd').click(function (e) {
+            if($('#uid').val() =="" || $('#uname').val()=="" || $('#password').val()=="")
+            {
+                alert('賬號,用戶名,密碼不能為空.');
+                return false;
+            }
+        });
+    });
+</script>
 <div id="divUserAdd">
     <form action="?act=users&amp;subact=useradd" method="post" enctype="multipart/form-data" id="formUserAdd">
 
@@ -140,7 +132,7 @@ foreach ( $roles as $r)
       <input type="submit" name="btnUserDel" id="btnUserDel" value="刪除用戶" />
     <input type="submit" name="btnGetRole" id="btnGetRole" value="獲取用戶角色" />
       <input type="submit" name="btnUpdateRole" id="btnUpdateRole" value="更新用戶角色" />
-      <div id="divRoleList" style="width: 120px; margin-top: 5px;"><?php echo $roleChkBoxstr ?></div>
+      <div><?php echo $roleChkBoxstr ?></div>
     
   </form>
 </div>

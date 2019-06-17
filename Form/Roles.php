@@ -11,39 +11,40 @@ $rDesc = __get("iptRoleDesc");
 //新增角色
 if(!empty(__get("btnRoleCreate")))
 {
-    if(empty($conn->getAllRow("select * from role where name='{$rDesc}'")))
+    if($user->roleAdd($rDesc))
     {
-        $rid = uniqid('RID_');
-        $conn->query("insert into role (Code, Name) value ('{$rid}','{$rDesc}')");
         __showMsg('角色創建成功.');
     } else {
-        __showMsg('角色創建失敗,已存在相同角色..');
+        __showMsg('角色創建失敗.' . $user->uconn->getErr());
     }
 }
 
 //刪除角色
 if(!empty(__get("btnRoleDel")))
 {
-    $conn->query("delete from rfid where rid='{$rid}'");
-    $conn->query("delete from role where Code='{$rid}'");
-    $rid="";
-    __showMsg('角色刪除成功.');
+    if($user->roleDelete($rid))
+    {
+        __showMsg('角色刪除成功.');
+    } else {
+        __showMsg('角色刪除失敗.' . $user->uconn->getErr());
+    }
 }
 
 //獲取所有角色清單
 $roleList = $conn->getAllRow("select name,code from role order by  Name");
 //獲取所有權限清單
 $funList  = $conn->getAllRow('select code,name from fun order by Name');
+
 //更新角色權限
 if(!empty(__get('btnUpdateRoleInfo')))
 {
     //刪除所有角色權限
-    $conn->query("delete from rfid where rid='{$rid}'");
+    $user->delByRoleFromRFID($rid);
     foreach ($funList as $f)
     {
         if(!empty(__get($f[0])))
         {
-            $conn->query("insert into rfid (rid, fid) value ('{$rid}','{$f[0]}')");
+            $user->addByRoleToRFID($rid, $f[0]);
         }
     }
     __showMsg("角色權限更新成功.");
@@ -57,9 +58,9 @@ $checkBoxStr = "";
 foreach ($funList as $f)
 {
     if(in_array($f[0],$rfids)) {
-        $checkBoxStr .= "<div><span class='title'>{$f[1]}</span><input type='checkbox' name='{$f[0]}' id='{$f[0]}' value='{$f[0]}' checked='checked'/></div>";
+        $checkBoxStr .= "<div><label for='{$f[0]}'>{$f[1]}</label><input type='checkbox' name='{$f[0]}' id='{$f[0]}' value='{$f[0]}' checked='checked'/></div>";
     } else {
-        $checkBoxStr .= "<div><span class='title'>{$f[1]}</span><input type='checkbox' name='{$f[0]}' id='{$f[0]}' value='{$f[0]}'/></div>";
+        $checkBoxStr .= "<div><label for='{$f[0]}'>{$f[1]}</label><input type='checkbox' name='{$f[0]}' id='{$f[0]}' value='{$f[0]}'/></div>";
     }
 }
 
@@ -77,23 +78,12 @@ foreach ($roleList as $r)
 
 
  ?>
-<style>
-    #divRoleList
-    {
-        width: 120px;
-        margin-top: 5px;;
-    }
-    #divRoleList div{
-        margin-bottom: 5px;
-        float: right;
-    }
-</style>
  <form action="?act=roles" method="post" enctype="multipart/form-data" name="formRole">
    <div>
 <!--     <label for="iptRid">創建角色:</label>-->
-<!--      <input type="text" name="iptRid" id="iptRid" style="width: 150px;" />-->
+<!--      <input type="text" name="iptRid" id="iptRid" />-->
       <label for="iptRoleDesc">角色描述</label>
-      <input type="text" name="iptRoleDesc" id="iptRoleDesc" style="width: 150px;"  />
+      <input type="text" name="iptRoleDesc" id="iptRoleDesc" />
 <input type="submit" name="btnRoleCreate" id="btnRoleCreate" value="創建角色" />
    </div>
    <div>
@@ -106,7 +96,7 @@ foreach ($roleList as $r)
    <input type="submit" name="btnGetRoleInfo" id="btnGetRoleInfo" value="獲取角色權限" />
    <input type="submit" name="btnUpdateRoleInfo" id="btnUpdateRoleInfo" value="更新角色權限" />
    </div>
-     <div id="divRoleList">
+     <div style="margin-left: 5px; margin-top: 5px;">
          <?php echo $checkBoxStr ?>
      </div>
 

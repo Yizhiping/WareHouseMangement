@@ -15,7 +15,7 @@ class User
     public $lastLoginTime;     //最后登录时间
     public $lastLoginIP;        //最后登录地址
     public $loginTimes;         //登录次数
-    private $uconn;
+    public $uconn;
     public $isLogined = false;
 
     public $sampleUserInfo = array(
@@ -108,10 +108,24 @@ class User
      * @param $uid  賬號
      * @return bool|mysqli_result
      */
-    public function delete($uid)
+    public function userDelete($uid)
     {
-        if($this->authByRole('管理員',true)) return;
-        return $this->uconn->query("delete from users where Uid='{$uid}'");
+
+        $this->uconn->query('begin');
+        $sql = "delete from urid where uid='{$uid}'";
+        if(!$this->uconn->query($sql))
+        {
+            $this->uconn->query('rollback');
+            return false;
+        }
+
+        if(!$this->uconn->query("delete from users where uid='{$uid}'"))
+        {
+            $this->uconn->query('rollback');
+            return false;
+        }
+
+         return $this->uconn->query('commit');
     }
 
     /**
@@ -136,7 +150,7 @@ class User
      * @param $userInfo
      * @return bool|mysqli_result
      */
-    public function add($userInfo)
+    public function userAdd($userInfo)
     {
         $sql = "insert into users (Uid, UName, PassWord, Mail, Descirption) value (
                 '{$userInfo['uid']}',
@@ -146,7 +160,131 @@ class User
                 '{$userInfo['desc']}'
                 )";
         return $this->uconn->query($sql);
+    }
 
+    /**
+     * 增加一個角色
+     * @param $rName    角色名
+     * @return bool     成功返回true, 失敗返回false
+     */
+    public function roleAdd($rName)
+    {
+        $rid = uniqid("RID_");
+        return $this->uconn->query("insert into role (Code, Name) value ('{$rid}','$rName')");
+    }
+
+    /**
+     * 刪除一個角色
+     * @param $rid
+     * @return bool   成功返回true, 失敗返回false
+     */
+    public function roleDelete($rid)
+    {
+        #開始事物
+        $this->uconn->query('begin');
+        #刪除角色與功能對應關係 rfid
+        $sql = "delete from rfid where rid='$rid'";
+        if(!$this->uconn->query($sql))
+        {
+            $this->uconn->query('rollback');
+            return false;
+        }
+        #刪除用戶與角色對應關係 urid
+        $sql = "delete from urid where rid='{$rid}'";
+        if(!$this->uconn->query($sql))
+        {
+            $this->uconn->query('rollback');
+            return false;
+        }
+        #刪除角色
+        $sql = "delete from role where Code='{$rid}'";
+        if(!$this->uconn->query($sql))
+        {
+            $this->uconn->query('rollback');
+            return false;
+        }
+        #提交事物
+        return $this->uconn->query('commit');
+    }
+
+    /**
+     * 增加一個功能
+     * @param $fName
+     * @return bool|mysqli_result
+     */
+    public function funAdd($fName)
+    {
+        $fid = uniqid("FID_");
+        return $this->uconn->query("insert into fun (Code, Name) value ('{$fid}','{$fName}')");
+    }
+
+    /**
+     * 刪除一個功能
+     * @param $fid
+     * @return bool|mysqli_result
+     */
+    public function funDelete($fid)
+    {
+        #開始事務
+        $this->uconn->query('begin');
+        #刪除角色與功能關係 rfid
+        $sql = "delete from rfid where fid='{$fid}'";
+        if(!$this->uconn->query($sql))
+        {
+            $this->uconn->query('rollback');
+            return false;
+        }
+        #刪除功能
+        $sql = "delete from fun where Code='{$fid}'";
+        if(!$this->uconn->query($sql))
+        {
+            $this->uconn->query('rollback');
+            return false;
+        }
+        #提交事務
+        return $this->uconn->query('commit');
+    }
+
+    /**
+     * 從角色/功能關係表刪除
+     * @param $rid
+     * @return bool|mysqli_result
+     */
+    public function delByRoleFromRFID($rid)
+    {
+        return $this->uconn->query("delete from rfid where rid='{$rid}'");
+    }
+
+    /**
+     * 增加一個角色/功能關係
+     * @param $rid
+     * @param $fid
+     * @return bool|mysqli_result
+     */
+    public function addByRoleToRFID($rid, $fid)
+    {
+        return $this->uconn->query("insert into rfid (rid, fid) VALUE ('{$rid}','{$fid}')");
+    }
+
+    /**
+     * 從用戶/角色表刪除項目
+     * @param $uid
+     * @return bool|mysqli_result
+     */
+    public function delByUserFromURID($uid)
+    {
+        return $this->uconn->query("delete from urid where uid='{$uid}'");
+    }
+
+    /**
+     * 增加一個用戶/角色關係
+     * @param $uid
+     * @param $rid
+     * @return bool|mysqli_result
+     */
+    public function addByUserToURID($uid, $rid)
+    {
+        return $this->uconn->query("insert into urid (uid, rid) value ('{$uid}','{$rid}')");
     }
 
     /**

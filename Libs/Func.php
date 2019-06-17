@@ -23,8 +23,7 @@ function __get($v)
  */
 function __showMsg($msg)
 {
-    global $msgList;
-    array_push($msgList, $msg);
+    printf("<script type=text/javascript>alert(\"%s\");</script>",$msg);
 }
 
 function __getIP()
@@ -93,11 +92,3 @@ function __createList($listArr, $name=null, $id=null, $class=null, $defaultVal=n
     echo $html;
 }
 
-function __showMsgList()
-{
-    global $msgList;
-    foreach($msgList as $msg)
-    {
-        printf("<script type=text/javascript>alert(\"%s\");</script>",$msg);
-    }
-}
