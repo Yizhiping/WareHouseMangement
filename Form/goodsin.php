@@ -136,7 +136,7 @@ if(true)
 
 <div>
     <form method="post">
-        <div>
+        <div class="divSearch">
             <label for="isn">輸入條碼:</label>
             <input type="text" id="isn" name="isn"/>
             <input type="submit" id="btnSearch" name="btnSearch" value="查詢">

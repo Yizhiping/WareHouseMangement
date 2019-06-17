@@ -335,4 +335,15 @@ class User
             return false;
         }
     }
+
+    public function authByFunOnlyAuto($method)
+    {
+        if($res = $this->uconn->getItemByItemName("select Name from fun where method='$method'"))
+        {
+           if(count($res)==0) return false;
+            return  $this->authByFun($res,false);
+        } else {
+            return false;
+        }
+    }
 }

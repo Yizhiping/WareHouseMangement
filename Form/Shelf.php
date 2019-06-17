@@ -5,24 +5,31 @@
  * Date: 2019/6/10
  * Time: 13:21
  */
+require_once "Libs/Shelf.php";
+
+$shelf = new Shelf();
 
 //刪除
 if(!empty(__get('btnBatchDel')))
 {
-    $instr = "";
+    $err = false;
     foreach ($_POST as $k=>$v)
     {
         if(substr($k,0,4)=='SID_')
         {
-            $instr .= "'{$v}',";
-            //$conn->query("delete from shelfs where ShelfID='{$v}'");
+            if(!$shelf->Del($v))
+            {
+                $err = true;
+                break;
+            }
         }
     }
-    if(!empty($instr))
+
+    if($err)
     {
-        $instr = substr($instr,0,strlen($instr)-1);
-        $conn->query("delete from shelfs where ShelfID in ({$instr})");
-        __showMsg("刪除成功.");
+        __showMsg('儲位刪除失敗'. $shelf->sConn->getErr());
+    } else {
+        __showMsg('刪除操作成功');
     }
 
 }
@@ -55,7 +62,7 @@ if(!empty(__get('btnShelfCreate')) )
 {
     if(preg_match('/^[1-9A-Z][A-Z][0-9][0-9][0-9][0-9][A-Z]$/',$shelfID)==1)
     {
-        if ($conn->query("insert into shelfs (ShelfID, Description) value ('{$shelfID}','{$shelfDesc}')")) {
+        if ($shelf->Add($shelfID,$shelfDesc)) {
             __showMsg("創建成功.");
             $shelfID = $shelfDesc = "";
         } else {
@@ -88,17 +95,6 @@ $showShelfCreate = !empty(__get('btnShelfCreate')) ? 'block' : 'none';
             }
         });
 
-        // $('#btnShelfCreate').click(function (e) {               //單個創建
-        //     if($('#iptShelfCreate').val().length != 7)
-        //     {
-        //         alert("儲位ID的長度為7位,請確認.");
-        //         return false;
-        //     } else {
-        //         return true;
-        //         //$('#formShelfCreate').submit();
-        //     }
-        // });
-        
         $('#btnShowShelfCreate').click(function (e) {           //顯示創建
             $('#divShelfSearchResult').hide();
             $('#divShelfBatchCreate').hide();
@@ -114,14 +110,9 @@ $showShelfCreate = !empty(__get('btnShelfCreate')) ? 'block' : 'none';
         });
     });
 </script>
-<style>
-    #divShelfSearchResult td{
-        border: 1px solid #ddd;
-    }
-</style>
-<form id="formShelf" name="formShelf" method="post" action="?act=shelf">
-<div>
 
+<form id="formShelf" name="formShelf" method="post" action="?act=shelf">
+<div class="divSearch">
 		<label for="textfield">查詢條件</label>
           <input type="text" name="shelfSearch" id="shelfSearch" value="<?php echo $shelfSearch ?>"/>
       <?php __createButton('submit','btnShelfSearch','btnShelfSearch',null,'查詢',null,null) ?>
@@ -145,7 +136,7 @@ $showShelfCreate = !empty(__get('btnShelfCreate')) ? 'block' : 'none';
       <?php __createButton('submit','btnShelfCreate','btnShelfCreate',null,'創建',null,null) ?>
 
 </div>
-<div id="divShelfSearchResult" style="display: <?php echo $res ? 'block' : 'none' ?>">
+<div class="divResult" id="divResult" style="display: <?php echo $res ? 'block' : 'none' ?>">
     <table>
         <tr>
             <td>項次</td>

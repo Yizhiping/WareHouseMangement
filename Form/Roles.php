@@ -11,12 +11,18 @@ $rDesc = __get("iptRoleDesc");
 //新增角色
 if(!empty(__get("btnRoleCreate")))
 {
-    if($user->roleAdd($rDesc))
+    if(empty($rDesc))
     {
-        __showMsg('角色創建成功.');
+        __showMsg('角色描述不能爲空.');
     } else {
-        __showMsg('角色創建失敗.' . $user->uconn->getErr());
+        if($user->roleAdd($rDesc))
+        {
+            __showMsg('角色創建成功.');
+        } else {
+            __showMsg('角色創建失敗.' . $user->uconn->getErr());
+        }
     }
+
 }
 
 //刪除角色
@@ -78,15 +84,28 @@ foreach ($roleList as $r)
 
 
  ?>
+<script type="text/javascript">
+    $(document).ready(function(e){
+        $('#btnRoleCreate').click(function(e){
+            if($('#iptRoleDesc').val()=="")
+            {
+                alert('角色描述不能爲空.');
+                return false;
+            } else {
+                return true;
+            }
+        });
+    });
+</script>
  <form action="?act=roles" method="post" enctype="multipart/form-data" name="formRole">
-   <div>
+   <div class="divSearch">
 <!--     <label for="iptRid">創建角色:</label>-->
 <!--      <input type="text" name="iptRid" id="iptRid" />-->
       <label for="iptRoleDesc">角色描述</label>
       <input type="text" name="iptRoleDesc" id="iptRoleDesc" />
 <input type="submit" name="btnRoleCreate" id="btnRoleCreate" value="創建角色" />
    </div>
-   <div>
+   <div class="divSearch">
      <label for="role">角色</label>
    <select name="role" id="role">
        <option>選擇角色</option>

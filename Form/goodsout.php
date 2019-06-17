@@ -174,6 +174,7 @@ if(!empty($btnGoodsChange))
     });
 </script>
 <form action="?act=goodsout" method="post" enctype="multipart/form-data" name="formGoodsOut" id="formGoodsOut">
+    <div class="divSearch">
   <label for="outType">方式:</label>
   <select name="outType" id="outType">
       <?php echo $outTypeHtml ?>
@@ -183,12 +184,13 @@ if(!empty($btnGoodsChange))
   <input type="submit" name="btnSearchGoods" id="btnSearchGoods" value="查詢" />
   <input type="submit" name="btnGoodsOut" id="btnGoodsOut" value="出貨選定貨物" />
     <input class="button" type="button" id="btnShowShelfChange" name="btnShowShelfChange" value="變更儲位" />
+    </div>
     <div id="divShelfChange" style="display: none;">
         <label for="iptTargetShelf">目標儲位:</label>
         <?php __createList($conn->getLine('select shelfId from shelfs order by ShelfID'), 'tragetShelf', 'tragetShelf',null, $tragetShelf ); ?>
         <input type="submit" name="btnGoodsChange" id="btnGoodsChange" value="變更儲位" />
     </div>
-    <div id="divResultGoodSearch" class="tableShow">
+    <div id="divResultGoodSearch" class="divResult">
         <?php echo $searchResultHtml ?>
     </div>
 </form>

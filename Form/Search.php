@@ -7,7 +7,7 @@
  */
 ?>
 
-<div>
+<div class="divSearch">
     <form id="formSearch" name="formSearch" method="post" action="?act=search">
         <label for="searchType">查詢類型</label>
         <select name="searchType" id="searchType">

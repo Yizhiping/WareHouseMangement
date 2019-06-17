@@ -10,14 +10,16 @@
 $funDesc = __get('iptFunDesc');
 if(!empty(__get('btnCreateFun')))
 {
-    $a = $conn->query("select code from fun where name='{$funDesc}'");
-    if($a->lengths == 0)
+    if(empty($funDesc))
     {
-        $fid = uniqid('FID_');
-        $conn->query("insert into fun (Code, Name) value ('{$fid}','{$funDesc}')");
-        __showMsg('功能創建成功');
-    } else {
-        __showMsg('功能創建失敗, 已存在相同功能.');
+        __showMsg('功能名稱不能為空.');
+    } else{
+        if($user->funAdd($funDesc))
+        {
+            __showMsg('功能創建成功');
+        } else{
+            __showMsg('功能創建失敗,' . $user->uconn->getErr());
+        }
     }
 }
 
@@ -28,8 +30,7 @@ if(!empty(__get('btnFunDel')))
     {
         if(!empty(__get($f[0])))
         {
-            $conn->query("delete from rfid where fid='{$f[0]}'");
-            $conn->query("delete from fun where Code='{$f[0]}'");
+            $user->funDelete($f[0]);
         }
     }
     __showMsg('功能刪除成功.');
@@ -45,16 +46,17 @@ foreach ($conn->getAllRow("select code,name from fun order by Name") as $f)
 ?>
 <form action="?act=fun" method="post" enctype="multipart/form-data" name="formFun" id="formFun">
 <div>
-    <div>
+    <div class="divSearch">
       <label for="iptFunDesc">功能描述</label>
       <input type="text" name="iptFunDesc" id="iptFunDesc" />
       <input type="submit" name="btnCreateFun" id="btnCreateFun" value="創建功能" />
+        <input type="submit" name="btnFunDel" id="btnFunDel" value="刪除選擇的功能" />
     </div>
     <div>
     	<ul>
             <?php echo $funListstr ?>
         </ul>
-        <input type="submit" name="btnFunDel" id="btnFunDel" value="刪除選擇的功能" />
+
     </div>
 </div>
 </form>

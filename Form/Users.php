@@ -104,25 +104,26 @@ foreach ( $roles as $r)
         });
     });
 </script>
-<div id="divUserAdd">
+<div id="divUserAdd" class="divSearch">
     <form action="?act=users&amp;subact=useradd" method="post" enctype="multipart/form-data" id="formUserAdd">
 
       <label for="uid">賬號名</label>
-      <input type="text" name="uid" id="uid" />
+      <input type="text" name="uid" id="uid" style="width: 100px;" />
       <label for="uname">用戶名</label>
-      <input type="text" name="uname" id="uname" />
+      <input type="text" name="uname" id="uname" style="width: 100px;" />
       <label for="password">密碼</label>
-      <input type="text" name="password" id="password" />
+      <input type="text" name="password" id="password" style="width: 100px;" />
       <label for="mail">郵件</label>
-      <input type="text" name="mail" id="mail" />
+      <input type="text" name="mail" id="mail" style="width: 100px;" />
       <label for="description">說明</label>
-      <input type="text" name="description" id="description" />
+      <input type="text" name="description" id="description" style="width: 100px;" />
       <input type="submit" name="btnUserAdd" id="btnUserAdd" value="創建用戶" />
     </form>
 </div>
 
-<div id="divUserManagement">
+<div id="divUserManagement" >
   <form action="?act=users&amp;subact=usermanagement" method="post" enctype="multipart/form-data" name="formUserManagement" id="formUserManagement">
+      <div class="divSearch">
     <label>選擇用戶
       <select name="userID" id="userID">
           <option value="">選擇用戶</option>
@@ -132,6 +133,7 @@ foreach ( $roles as $r)
       <input type="submit" name="btnUserDel" id="btnUserDel" value="刪除用戶" />
     <input type="submit" name="btnGetRole" id="btnGetRole" value="獲取用戶角色" />
       <input type="submit" name="btnUpdateRole" id="btnUpdateRole" value="更新用戶角色" />
+      </div>
       <div><?php echo $roleChkBoxstr ?></div>
     
   </form>
