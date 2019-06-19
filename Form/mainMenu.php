@@ -5,55 +5,82 @@
  * Date: 2019/6/10
  * Time: 9:39
  */
-?>
-<style>
-    #divMainMenu table tr td a {
-        display: block;
-        border: 1px solid black;
-        color: black;
-        height: 20px;
-        width: 80px;
-        float:left;
-        text-align: center;
-        font-size:16px;
-        line-height:20px;
-        margin-right: 2px;
-        border-radius: 5px;
-        text-decoration: none;
-        padding: 2px 2px 1px;
-    }
+if($isMobile) {
+    ?>
+    <style>
+        #divMainMenu a {
+            display: inline-block;
+            border: 1px solid black;
+            color: black;
+            height: 1em;
+            /* width: 80px; */
+            float: left;
+            text-align: center;
+            font-size: 2em;
+            line-height: 1em;
+            margin-right: 0.2em;
+            border-radius: 15%;
+            text-decoration: none;
+            padding: 0.1em 0.5em 0.1em;
+            margin-top: 0.1em;
+        }
 
-    #divMainMenu table tr td a:hover {
-        border-left: 1px solid blue;
-        border-top: 1px solid blue;
-        border-right:  3px solid red;
-        border-bottom:  3px solid red;
-        font-weight: bold;
-        background-color: #000;
-        color: #fff;
-    }
-</style>
+        #divMainMenu a:hover {
+            font-weight: bold;
+            background-color: #000;
+            color: #fff;
+        }
+    </style>
+    <?php
+} else {
+    ?>
+    <style>
+        #divMainMenu a {
+            display: inline-block;
+            border: 1px solid black;
+            color: black;
+            /*height: 1em;*/
+            /*width: 80px;*/
+            float: left;
+            text-align: center;
+            /*font-size: 2em;*/
+            line-height: 1em;
+            margin-right: 0.2em;
+            border-radius: 15%;
+            text-decoration: none;
+            padding: 0.1em 0.5em 0.1em;
+            margin-top: 0.1em;
+        }
+
+        #divMainMenu a:hover {
+            font-weight: bold;
+            background-color: #000;
+            color: #fff;
+        }
+    </style>
+    <?php
+}
+?>
 <div id="divMainMenu">
-    <table width="100%" border="0">
-      <tr>
-        <td width="80%">
-            <a href="?act=search">查詢</a>
-            <a href="?act=goodsin">入庫</a>
-            <a href="?act=goodsout">出庫</a>
-            <a href="?act=shelf">儲位</a>
-            <a href="?act=inventory">盤點</a>
-            <?php
-            if($user->authByRole("管理員",false))
-            {
-                echo '
-                    <a href="?act=users">用戶管理</a>
-                    <a href="?act=roles">角色管理</a>
-                    <a href="?act=fun">功能管理</a>
-                    ';
-            }
-            ?>
-        </td>
-        <td width="20%"><a href="?act=userDetail"><?php echo $user->name ?></a><a href="?act=userLogout">登出</a></td>
-      </tr>
-    </table>
+    <div style="float: left">
+    <?php
+        __createLink(null,null,'menuButton','?act=search','查詢');
+        __createLink(null,null,'menuButton','?act=goodsin','入庫');
+        __createLink(null,null,'menuButton','?act=goodsout','出庫');
+        if(!$isMobile) __createLink(null,null,'menuButton','?act=shelf','儲位');
+        if(!$isMobile) __createLink(null,null,'menuButton','?act=inventory','盤點');
+        if(!$isMobile && $user->authByRole('管理員'))
+        {
+            __createLink(null,null,'menuButton','?act=users','用戶管理');
+            __createLink(null,null,'menuButton','?act=roles','角色管理');
+            __createLink(null,null,'menuButton','?act=fun','功能管理');
+        }
+    ?>
+    </div>
+    <div style="float: right">
+        <?php
+        if(!$isMobile) __createLink(null,null,'menuButton','?act=userDetail',$user->name);
+        __createLink(null,null,'menuButton','?act=userLogout','登出');
+        ?>
+    </div>
 </div>

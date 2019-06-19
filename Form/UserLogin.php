@@ -40,20 +40,45 @@ $(document).ready(function(e) {
 	);
 });
 </script>
-<form id="formUserLogin" enctype="multipart/form-data" action="?act=userLogin" method="post">
-    <table>
-        <tr>
-            <td align="right">账户:</td>
-          <td align="left"><input id="uid" name="uid" type="text" value="<?php echo $uid ?>"/></td>
-        </tr>
-        <tr>
-            <td align="right">密码:</td>
-          <td align="left"><input id="password" name="password" type="password" value="<?php echo $pwd ?>"/></td>
-        </tr>
-        <tr>
-            <td></td>
-            <td><input type="submit" name="btnUserLogin" id="btnUserLogin" value="登入系统"></td>
-        </tr>
-    </table>
-</form>
+<style>
+    #divUserLogin table tr td{
+        font-size: 1em;
+    }
+    #divUserLogin table td:nth-child(1)
+    {
+        width: 100px;
+        font-size: 1.5em;
+    }
+    #divUserLogin table td:nth-child(2)
+    {
+        width: 300px;
+    }
 
+    #divUserLogin
+    {
+<?php
+    if($isMobile)
+        {
+            echo "
+                margin-top: 20%;
+    margin-left: 5%;
+    padding: 5% 5% 20%;";
+        } else {
+        echo "margin-top: 20%;
+margin-left: 5%;
+padding: 5% 30% 50%;";
+        }
+
+?>
+    }
+</style>
+<div style="border: 1px solid #666">
+    <div id="divUserLogin">
+        <form id="formUserLogin" enctype="multipart/form-data" action="?act=userLogin" method="post">
+            <div><span>账户:</span><input id="uid" name="uid" type="text" value="<?php echo $uid ?>"/></div>
+            <div><span>密碼:</span><input id="password" name="password" type="password" value="<?php echo $pwd ?>"/></div>
+            <div></div>
+            <div><input type="submit" name="btnUserLogin" id="btnUserLogin" value="登入系统" style="float: right;"></div>
+        </form>
+    </div>
+</div>

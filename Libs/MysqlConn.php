@@ -15,6 +15,7 @@ class MysqlConn
     private $db_dbname; // = "WareHouseManagement";
     private $conn;
     public  $lastSql;   //最後執行的sql
+    private $err;
 
     function __construct($host, $uid, $pwd, $db)
     {
@@ -110,12 +111,18 @@ class MysqlConn
     public function query($sql)
     {
         $this->lastSql = $sql;
-        return $this->conn->query($sql);
+        if($this->conn->query($sql))
+        {
+            return true;
+        } else {
+            $this->err = $this->conn->error;
+            return false;
+        }
     }
 
     public function getErr()
     {
-        return $this->conn->error;
+        return $this->err;
     }
 }
 

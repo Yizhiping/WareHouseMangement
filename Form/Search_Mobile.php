@@ -36,16 +36,12 @@ if(!empty($btnSearch))
 #ShelfId,PalletId,model,item,so,qty,customer,uid,datein
     if($res = $goods->getGoodsInfo($palletInfo))
     {
-        $resultHtml .= "<table><tr><td>序號</td><td>儲位</td><td>棧板</td><td>機種</td><td>料號</td><td>訂單</td><td>數量</td><td>客戶</td><td>經手人</td><td>入庫時間</td></tr>";
+        $resultHtml .= "<table><tr><td>序號</td><td>儲位</td><td>棧板</td><td>訂單</td><td>數量</td></tr>";
         foreach ($res as $r)
         {
             $idx++;
-            $resultHtml .= "<tr><td>{$idx}</td>";
-            foreach ($r as $v)
-            {
-                $resultHtml .= "<td>{$v}</td>";
-            }
-            $resultHtml .= "</tr>";
+            $resultHtml .= "<tr><td>{$idx}</td><td>{$r[0]}</td><td>{$r[1]}</td><td>{$r[4]}</td><td>{$r[5]}</td></tr>";
+
         }
         $resultHtml .= "</table>";
     } else {
@@ -55,8 +51,11 @@ if(!empty($btnSearch))
 
 ?>
 <style>
-    .divSearch form label
-    {
+    .divResult table tr td{
+        font-size: 100%;
+        height: 1em;
+    }
+    .divSearch form label {
         font-size: 1.5em;
     }
 </style>
@@ -70,7 +69,7 @@ if(!empty($btnSearch))
         </select>
         <br />
         <label for="iptSearch">内容</label>
-        <input type="text" name="iptSearch" id="iptSearch" value="<?php echo $isn ?>" />
+        <input type="text" name="iptSearch" id="iptSearch" value="<?php echo $isn ?>" style="width: 50%"/>
         <input type="submit" name="btnSearch" id="btnSearch" value="查詢">
     </form>
 </div>

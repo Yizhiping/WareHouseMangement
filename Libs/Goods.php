@@ -91,6 +91,7 @@ class Goods
                 #第四步, 刪除庫存資料
                 if($this->gconn->query("delete from goods where PalletId='{$palletId}'"))
                 {
+                    echo $this->gconn->lastSql;
                     #第五步, 提交事物
                     return $this->gconn->query('commit');
                 } else {

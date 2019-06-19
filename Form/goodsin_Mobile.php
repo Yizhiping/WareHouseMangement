@@ -93,22 +93,24 @@ if(!empty(__get('btnGoodsIn')))
 //生成棧板信息的html
 if(true)
 {
-    $palletInfoStr .= "<lable for='pallet'>棧板編號:</lable><input name='pallet' value='{$pallet}' id='pallet' type='text' readonly='readonly'/>" . EOL;
-    $palletInfoStr .= "<lable for='model'>機種名稱:</lable><input name='model' value='{$model}' id='model' type='text' readonly='readonly' />" . EOL;
-    $palletInfoStr .= "<lable for='so'>訂單編號:</lable><input name='so' value='{$so}' id='so' type='text' readonly='readonly' />" . EOL;
-    $palletInfoStr .= "<lable for='item'>機種料號:</lable><input name='item' value='{$item}' id='item' type='text' readonly='readonly' />" . EOL;
-    $palletInfoStr .= "<lable for='qty'>棧板數量:</lable><input name='qty' value='{$qty}' id='qty' type='text' readonly='readonly' />" . EOL;
+    $palletInfoStr .= "<div><span>棧板編號:</span><input name='pallet' value='{$pallet}' id='pallet' type='text' readonly='readonly'/></div>" ;
+    $palletInfoStr .= "<div><span>機種名稱:</span><input name='model' value='{$model}' id='model' type='text' readonly='readonly' /></div>" ;
+    $palletInfoStr .= "<div><span>訂單編號:</span><input name='so' value='{$so}' id='so' type='text' readonly='readonly' /></div>" ;
+    $palletInfoStr .= "<div><span>機種料號:</span><input name='item' value='{$item}' id='item' type='text' readonly='readonly' /></div>" ;
+    $palletInfoStr .= "<div><span>棧板數量:</span><input name='qty' value='{$qty}' id='qty' type='text' readonly='readonly' /></div>" ;
 
+    $palletInfoStr .= "<div class='mdn-group block-group'>";
     if ($existShelfid != false) {
         $palletInfoStr .= '<span>選擇一個儲位</span>';
         foreach ($existShelfid as $v)
         {
             $palletInfoStr .= "<input type='radio' id='{$v}' name='shelfId' value='{$v}'/><label for='{$v}'>{$v}</label>";
         }
-        $palletInfoStr .= "<input type='radio' id='selNewShelfId' name='shelfId' value='newShelfId'/><label for='selNewShelfId'>新儲位</label>";
+        $palletInfoStr .= "<label for='selNewShelfId' class='mdn-option'><input type='radio' id='selNewShelfId' name='shelfId' value='newShelfId'/><span class='mdn-checkbox'></span><span class='option-label'>新儲位</span></label>";
     } else {
-        $palletInfoStr .= "<input type='radio' id='selNewShelfId' name='shelfId' value='newShelfId' checked='checked'/><label for='selNewShelfId'>新儲位</label>";
+        $palletInfoStr .= "<label for='selNewShelfId' class='mdn-option'><input type='radio' id='selNewShelfId' name='shelfId' value='newShelfId'/><span class='mdn-checkbox'></span><span class='option-label'>新儲位</span></label>";
     }
+
     //最後一個選項是新儲位, 顯示儲位清單. 如果是新訂單, 則該選項默認被選擇
 }
 
@@ -133,27 +135,76 @@ if(true)
 
     });
 </script>
+<style>
+    #isn {
+        width: 50%;
+    }
 
+    #divPallerInfo span, #divPallerInfo label{
+        font-size: 1.5em;
+    }
+
+    .radio label
+    {
+        position: relative;
+        display: inline-block;
+        padding-left: 25px;
+        cursor: pointer;
+    }
+
+    .radio input
+    {
+        position: absolute;
+        left: -2000px;
+    }
+
+    .radio label i
+    {
+        display: block;
+        position: absolute;
+        top: 0;
+        left: 0;
+        height: 1em;
+        width: 1em;
+        outline: 0;
+        border: 1px solid #222222;
+        background-color: white;
+        border-radius: 50%;
+    }
+
+    .radio label input+i::after
+    {
+        position: absolute;
+        content: '';
+        top: 3px;
+        left: 3px;
+        width: 9px;
+        height: 9px;
+        border-radius: 50%;
+        background-color: blue;
+        opacity: 0;
+        /*给i::after元素的opacity属性设置过渡*/
+        transition: opacity .1s;
+        -webkit-transition: opacity .1s;
+    }
+    .radio label input:checked+i::after
+    {
+        opacity: 1;
+    }
+</style>
 <div>
     <form method="post">
         <div class="divSearch">
-            <label for="isn">條碼:</label>
             <input type="text" id="isn" name="isn"/>
             <input type="submit" id="btnSearch" name="btnSearch" value="查詢">
             <input type="submit" id="btnGoodIn" name="btnGoodsIn" value="入庫">
         </div>
-        <div>
+        <div id="divPallerInfo">
         <?php
-        //如果是新進訂單, 則默認顯示儲位清單, 否則默認不顯示
-//        if($existShelfid != false) {
-//            echo "<div id='divNewShelfId' style='display:none'>";
-//        } else {
-//            echo "<div id='divNewShelfId' style='display:block'>";
-//        }
-
         echo $palletInfoStr;
         __createList($conn->getLine('select shelfId from shelfs order by ShelfID'), 'newShelfId', 'newShelfId',null, $newShelfId );
-            echo "</div>";
+
+        echo "</div></div>";
         ?>
         </div>
     </form>

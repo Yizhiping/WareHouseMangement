@@ -18,12 +18,11 @@ $subact = __get('subact');
 
 <html>
 <meta http-equiv="content-type" content="text/html;charset=utf-8">
-<link href="Css/MainPage.css" rel="stylesheet">
-<link href="Css/ButtonStyle.css" rel="stylesheet">
-<link href="Css/InputStyle.css" rel="stylesheet">
+<link href="Css/<?php echo $cssName ?>" rel="stylesheet">
+<link href="Css/modernforms.css" rel="stylesheet">
 <link rel="icon" href="Favicon.ico">
 <script type="text/javascript" src="Script/jquery-1.9.1.min.js"></script>
-<script type="text/javascript" src="Script/jquery.cookie.js"></script>
+<script type="text/javascript" src="Script/Main.js"></script>
 <head>
 
     <title>成倉管理系統</title>
@@ -52,12 +51,12 @@ $subact = __get('subact');
             {
                 include "Form/UserLogin.php";
             } else {
-                include "Form/Router.php";      //否则加载路由器,处理请求.
+                include "Libs/Router.php";      //否则加载路由器,处理请求.
             }
             ?>
         </div>
     </div>
-    <div id="footer">底部（footer）</div>
+    <div id="footer">最後更新日期: 2019-6-18</div>
 </div>
 </body>
 </html>

@@ -58,11 +58,11 @@ if(!empty($btnSearchGoods))
     {
         $id = 0;
         $searchResultHtml .= "<table>";
-        $searchResultHtml .= "<tr><td>項次</td><td>儲位</td><td>棧板號</td><td>機種</td><td>訂單</td><td>數量</td><td><input type='checkbox' id='selAll'/></td></tr>";
+        $searchResultHtml .= "<tr><td>項次</td><td>儲位</td><td>棧板號</td><td>訂單</td><td>數量</td><td><input type='checkbox' id='selAll'/></td></tr>";
         foreach ($res as $r)
         {
             $id++;
-            $searchResultHtml .= "<tr><td>{$id}</td><td>{$r[0]}</td><td>{$r[1]}</td><td>{$r[2]}</td><td>{$r[4]}</td><td>{$r[5]}</td><td><input type='checkbox' name='PID_{$r[1]}' class='clsSelPallet' value='{$r[1]}'/></td></tr>";
+            $searchResultHtml .= "<tr><td>{$id}</td><td>{$r[0]}</td><td>{$r[1]}</td><td>{$r[4]}</td><td>{$r[5]}</td><td><input type='checkbox' name='PID_{$r[1]}' class='clsSelPallet' value='{$r[1]}'/></td></tr>";
         }
         $searchResultHtml .= "</table>";
     } else {
@@ -92,11 +92,10 @@ if(!empty($btnGoodsOut))
     } else {
         foreach ($pallets as $v) {
             if ($goods->goodsOut($v, $user->uid)) {
-
                 $err = 1;
             } else {
-                array_push($errPallets, $v . '=>'. $goods->gconn->getErr());
                 $err = 2;
+                array_push($errPallets, $v . '=>'. $goods->gconn->getErr());
             }
             array_push($errList,$err);
         }
@@ -137,10 +136,9 @@ if(!empty($btnGoodsChange))
             if ($goods->updateShelfId($v, $tragetShelf)) {
                 $err = 1;
             } else {
-                array_push($errPallets, $v . '=>'. $goods->gconn->getErr());
                 $err = 2;
             }
-            array_push($errList,$err);
+            array_push($errPallets,$v);
         }
     }
 
@@ -176,28 +174,43 @@ if(!empty($btnGoodsChange))
         });
     });
 </script>
-<form action="?act=goodsout" method="post" enctype="multipart/form-data" name="formGoodsOut" id="formGoodsOut">
-    <div class="divSearch">
-  <label for="outType">方式:</label>
-  <select name="outType" id="outType">
-      <?php echo $outTypeHtml ?>
-  </select>
-  <label for="isn">查詢內容:</label>
-  <input type="text" name="isn" id="isn" value="<?php echo $isn ?>"/>
-  <input type="submit" name="btnSearchGoods" id="btnSearchGoods" value="查詢" />
-  <input type="submit" name="btnGoodsOut" id="btnGoodsOut" value="出貨選定貨物" />
-    <input class="button" type="button" id="btnShowShelfChange" name="btnShowShelfChange" value="變更儲位" />
-    </div>
-    <div id="divShelfChange" style="display: none;">
-        <label for="iptTargetShelf">目標儲位:</label>
-        <?php __createList($conn->getLine('select shelfId from shelfs order by ShelfID'), 'tragetShelf', 'tragetShelf',null, $tragetShelf ); ?>
-        <input type="submit" name="btnGoodsChange" id="btnGoodsChange" value="變更儲位" />
-    </div>
-    <div id="divResultGoodSearch" class="divResult">
-        <?php echo $searchResultHtml ?>
-    </div>
-</form>
-
+<style>
+    #divGoodsOut label
+    {
+        font-size: 1.5em;
+    }
+    #divResultGoodSearch
+    {
+        font-size: 35px;
+    }
+</style>
+<div id="divGoodsOut">
+    <form action="?act=goodsout" method="post" enctype="multipart/form-data" name="formGoodsOut" id="formGoodsOut">
+        <div class="divSearch">
+            <div>
+                <label for="outType">方式:</label>
+                <select name="outType" id="outType">
+                <?php echo $outTypeHtml ?>
+                </select>
+            </div>
+            <div>
+            <label for="isn">查詢內容:</label>
+            <input type="text" name="isn" id="isn" value="<?php echo $isn ?>"/>
+            <input type="submit" name="btnSearchGoods" id="btnSearchGoods" value="查詢" />
+            <input type="submit" name="btnGoodsOut" id="btnGoodsOut" value="選定出貨" />
+            <input class="button" type="button" id="btnShowShelfChange" name="btnShowShelfChange" value="變更儲位" />
+            </div>
+        </div>
+        <div id="divShelfChange" style="display: none;">
+            <label for="iptTargetShelf">目標儲位:</label>
+            <?php __createList($conn->getLine('select shelfId from shelfs order by ShelfID'), 'tragetShelf', 'tragetShelf',null, $tragetShelf ); ?>
+            <input type="submit" name="btnGoodsChange" id="btnGoodsChange" value="變更儲位" />
+        </div>
+        <div id="divResultGoodSearch" class="divResult">
+            <?php echo $searchResultHtml ?>
+        </div>
+    </form>
+</div>
 
 
 

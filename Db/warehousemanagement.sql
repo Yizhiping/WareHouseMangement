@@ -1,31 +1,38 @@
-﻿# Host: localhost  (Version: 5.5.53)
-# Date: 2019-06-18 02:14:10
-# Generator: MySQL-Front 5.3  (Build 4.234)
+/*
+Navicat MySQL Data Transfer
 
-/*!40101 SET NAMES utf8 */;
+Source Server         : 127.0.0.1
+Source Server Version : 50553
+Source Host           : localhost:3306
+Source Database       : warehousemanagement
 
-#
-# Structure for table "customermapping"
-#
+Target Server Type    : MYSQL
+Target Server Version : 50553
+File Encoding         : 65001
 
+Date: 2019-06-19 08:11:26
+*/
+
+SET FOREIGN_KEY_CHECKS=0;
+
+-- ----------------------------
+-- Table structure for `customermapping`
+-- ----------------------------
 DROP TABLE IF EXISTS `customermapping`;
 CREATE TABLE `customermapping` (
   `Customer` char(255) NOT NULL,
   `Item` char(255) NOT NULL
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
-#
-# Data for table "customermapping"
-#
+-- ----------------------------
+-- Records of customermapping
+-- ----------------------------
+INSERT INTO `customermapping` VALUES ('ARRIS', '');
+INSERT INTO `customermapping` VALUES ('ARRIS', '');
 
-/*!40000 ALTER TABLE `customermapping` DISABLE KEYS */;
-INSERT INTO `customermapping` VALUES ('ARRIS','');
-/*!40000 ALTER TABLE `customermapping` ENABLE KEYS */;
-
-#
-# Structure for table "events"
-#
-
+-- ----------------------------
+-- Table structure for `events`
+-- ----------------------------
 DROP TABLE IF EXISTS `events`;
 CREATE TABLE `events` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
@@ -37,17 +44,13 @@ CREATE TABLE `events` (
   UNIQUE KEY `id` (`id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
-#
-# Data for table "events"
-#
+-- ----------------------------
+-- Records of events
+-- ----------------------------
 
-/*!40000 ALTER TABLE `events` DISABLE KEYS */;
-/*!40000 ALTER TABLE `events` ENABLE KEYS */;
-
-#
-# Structure for table "fun"
-#
-
+-- ----------------------------
+-- Table structure for `fun`
+-- ----------------------------
 DROP TABLE IF EXISTS `fun`;
 CREATE TABLE `fun` (
   `Code` char(255) DEFAULT NULL,
@@ -57,18 +60,25 @@ CREATE TABLE `fun` (
   UNIQUE KEY `NameId` (`Name`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
-#
-# Data for table "fun"
-#
+-- ----------------------------
+-- Records of fun
+-- ----------------------------
+INSERT INTO `fun` VALUES ('FID_5cff83f8a8e50', '用戶查詢', null);
+INSERT INTO `fun` VALUES ('FID_5cff83f3cc78b', '用戶創建', '');
+INSERT INTO `fun` VALUES ('FID_5cff84009828e', '用戶修改', null);
+INSERT INTO `fun` VALUES ('FID_5cff834f54be2', '儲位刪除', 'shelfDel');
+INSERT INTO `fun` VALUES ('FID_5cff8348c6aa5', '儲位修改', null);
+INSERT INTO `fun` VALUES ('FID_5cff8342a909e', '儲位創建', 'shelfAdd');
+INSERT INTO `fun` VALUES ('FID_5cff832418531', '儲位查詢', null);
+INSERT INTO `fun` VALUES ('FID_5cff8405c3b06', '用戶刪除', null);
+INSERT INTO `fun` VALUES ('FID_5d034aaca2804', '貨物入庫', null);
+INSERT INTO `fun` VALUES ('FID_5d034ab318e54', '貨物出庫', null);
+INSERT INTO `fun` VALUES ('FID_5d034abc98b6d', '貨物轉移', null);
+INSERT INTO `fun` VALUES ('FID_5d034ac30a39c', '貨物查詢', null);
 
-/*!40000 ALTER TABLE `fun` DISABLE KEYS */;
-INSERT INTO `fun` VALUES ('FID_5cff83f8a8e50','用戶查詢',NULL),('FID_5cff83f3cc78b','用戶創建',''),('FID_5cff84009828e','用戶修改',NULL),('FID_5cff834f54be2','儲位刪除','shelfDel'),('FID_5cff8348c6aa5','儲位修改',NULL),('FID_5cff8342a909e','儲位創建','shelfAdd'),('FID_5cff832418531','儲位查詢',NULL),('FID_5cff8405c3b06','用戶刪除',NULL),('FID_5d034aaca2804','貨物入庫',NULL),('FID_5d034ab318e54','貨物出庫',NULL),('FID_5d034abc98b6d','貨物轉移',NULL),('FID_5d034ac30a39c','貨物查詢',NULL);
-/*!40000 ALTER TABLE `fun` ENABLE KEYS */;
-
-#
-# Structure for table "goods"
-#
-
+-- ----------------------------
+-- Table structure for `goods`
+-- ----------------------------
 DROP TABLE IF EXISTS `goods`;
 CREATE TABLE `goods` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
@@ -84,18 +94,15 @@ CREATE TABLE `goods` (
   `ModifyTime` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   UNIQUE KEY `id` (`id`),
   UNIQUE KEY `palletId` (`PalletId`)
-) ENGINE=InnoDB AUTO_INCREMENT=20 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=40 DEFAULT CHARSET=utf8;
 
-#
-# Data for table "goods"
-#
+-- ----------------------------
+-- Records of goods
+-- ----------------------------
 
-INSERT INTO `goods` VALUES (1,'W000805714-005','11111','90B2AA100040','W000805714','120',NULL,'5A0101A','admin','2019-06-14 10:20:01','2019-06-14 22:44:52'),(2,'Z21924407','IPC4100','90B3-9A10010','W000802766','360',NULL,'5A0101A','admin','0000-00-00 00:00:00','2019-06-14 22:44:52'),(3,'W000795898-033','TG2482A','90B2-AA10040','W000795898','120',NULL,'5A0101A','admin','0000-00-00 00:00:00',NULL),(4,'W000805714-042','TG2482A','90B2AA100040','W000805714','120',NULL,'5A0101A','admin','0000-00-00 00:00:00','2019-06-14 22:44:52'),(5,'W000805714-006','TG2482A','90B2AA100040','W000805714','120',NULL,'5A0101G','admin','0000-00-00 00:00:00',NULL),(6,'Z41924307','PS5200IMC','90B399100010','W000802769','320',NULL,'5A0101A','admin','0000-00-00 00:00:00','2019-06-14 22:44:52'),(7,'W000800084-009','TG2482A','90B2AA100010','W000800084','120',NULL,'5A0101A','admin','0000-00-00 00:00:00','2019-06-14 22:44:52'),(8,'W000800084-010','TG2482A','90B2AA100010','W000800084','120',NULL,'5A0101A','admin','0000-00-00 00:00:00','2019-06-14 22:44:52'),(9,'W000804970-004','CM8200B','90B2-9410020','W000804970','270',NULL,'5A0101E','admin','0000-00-00 00:00:00',NULL),(10,'W000805007-047','TG2492LG','90B2-8F10600','W000805007','126',NULL,'5A0101F','admin','2019-06-14 10:24:59',NULL),(11,'Z01924402','E934','90B2-9L10020','W000792545','90','','5A0101D','admin','2019-06-14 13:10:33',NULL),(12,'W000805010-007','TG2492LG','90B2-8F10600','W000805010','126','','5A0101D','admin','2019-06-14 14:53:36',NULL),(18,'W000800084-015','TG2482A','90B2AA100010','W000800084','120','','5A0101G','admin','2019-06-14 15:41:13','2019-06-14 15:54:56'),(19,'W000805010-006','TG2492LG','90B2-8F10600','W000805010','126','','5A0101D','admin','2019-06-14 15:43:35','2019-06-14 15:43:35');
-
-#
-# Structure for table "goods_shipped"
-#
-
+-- ----------------------------
+-- Table structure for `goods_shipped`
+-- ----------------------------
 DROP TABLE IF EXISTS `goods_shipped`;
 CREATE TABLE `goods_shipped` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
@@ -112,38 +119,51 @@ CREATE TABLE `goods_shipped` (
   `ModifyTime` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   UNIQUE KEY `id` (`id`),
   UNIQUE KEY `palletId` (`PalletId`)
-) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=58 DEFAULT CHARSET=utf8;
 
-#
-# Data for table "goods_shipped"
-#
+-- ----------------------------
+-- Records of goods_shipped
+-- ----------------------------
+INSERT INTO `goods_shipped` VALUES ('23', 'Z21924404', 'IPC4100', '90B3-9A10010', 'W000802765', '360', '', 'admin', 'admin', '2019-06-18 17:07:10', '2019-06-18 18:09:29', '2019-06-18 18:09:29');
+INSERT INTO `goods_shipped` VALUES ('24', 'Z11924402', 'DCX4400', '90B3-A710010', 'W000804169', '400', '', 'admin', 'admin', '2019-06-18 17:07:26', '2019-06-18 18:09:29', '2019-06-18 18:09:29');
+INSERT INTO `goods_shipped` VALUES ('25', 'W000800084-025', 'TG2482A', '90B2AA100010', 'W000800084', '120', '', 'admin', 'admin', '2019-06-18 17:07:40', '2019-06-18 18:09:29', '2019-06-18 18:09:29');
+INSERT INTO `goods_shipped` VALUES ('28', 'W000804970-012', 'CM8200B', '90B2-9410020', 'W000804970', '270', '', 'admin', 'admin', '2019-06-18 17:05:05', '2019-06-18 18:09:11', '2019-06-18 18:09:11');
 
-INSERT INTO `goods_shipped` VALUES (1,'W000805714-005','11111','90B2AA100040','W000805714','120',NULL,'admin','','0000-00-00 00:00:00','0000-00-00 00:00:00','0000-00-00 00:00:00'),(2,'Z21924407','IPC4100','90B3-9A10010','W000802766','360',NULL,'admin','','0000-00-00 00:00:00','2019-06-14 12:07:39','0000-00-00 00:00:00'),(4,'W000795898-033','TG2482A','90B2-AA10040','W000795898','120',NULL,'admin','','0000-00-00 00:00:00','2019-06-14 12:10:13','0000-00-00 00:00:00'),(7,'Z31924310','F096','90B392100020','W000804122','216','','admin','admin','0000-00-00 00:00:00','2019-06-14 15:24:20','0000-00-00 00:00:00'),(8,'Z01924317','E934','90B2-9L10020','W000792545','90','','admin','admin','0000-00-00 00:00:00','2019-06-14 15:25:05','0000-00-00 00:00:00'),(9,'Z01924320','E990','90B395100010','W000805802','216','','admin','admin','0000-00-00 00:00:00','2019-06-14 15:31:58','0000-00-00 00:00:00'),(10,'Z21924310','IPC4100','90B3-9A10010','W000802764','360','','admin','admin','2019-06-14 15:33:50','2019-06-14 15:34:20','0000-00-00 00:00:00'),(11,'W000804970-008','CM8200B','90B2-9410020','W000804970','270','','admin','admin','2019-06-14 15:39:59','2019-06-14 15:40:08','0000-00-00 00:00:00');
-
-#
-# Structure for table "rfid"
-#
-
+-- ----------------------------
+-- Table structure for `rfid`
+-- ----------------------------
 DROP TABLE IF EXISTS `rfid`;
 CREATE TABLE `rfid` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `rid` char(255) NOT NULL,
   `fid` char(255) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=108 DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM AUTO_INCREMENT=113 DEFAULT CHARSET=utf8;
 
-#
-# Data for table "rfid"
-#
+-- ----------------------------
+-- Records of rfid
+-- ----------------------------
+INSERT INTO `rfid` VALUES ('74', 'RID_5cff6e263d96a', 'FID_5cff83f8a8e50');
+INSERT INTO `rfid` VALUES ('75', 'RID_5cff6e263d96a', 'FID_5d034aaca2804');
+INSERT INTO `rfid` VALUES ('76', 'RID_5cff6e263d96a', 'FID_5d034ac30a39c');
+INSERT INTO `rfid` VALUES ('77', 'RID_5cff6e263d96a', 'FID_5d034abc98b6d');
+INSERT INTO `rfid` VALUES ('78', 'RID_5cff6e2bc2b8f', 'FID_5cff83f8a8e50');
+INSERT INTO `rfid` VALUES ('79', 'RID_5cff6e2bc2b8f', 'FID_5d034aaca2804');
+INSERT INTO `rfid` VALUES ('80', 'RID_5cff6e2bc2b8f', 'FID_5d034ac30a39c');
+INSERT INTO `rfid` VALUES ('81', 'RID_5cff6e2bc2b8f', 'FID_5d034abc98b6d');
+INSERT INTO `rfid` VALUES ('82', 'RID_5cff6e1e88eba', 'FID_5cff8348c6aa5');
+INSERT INTO `rfid` VALUES ('83', 'RID_5cff6e1e88eba', 'FID_5cff834f54be2');
+INSERT INTO `rfid` VALUES ('84', 'RID_5cff6e1e88eba', 'FID_5cff8342a909e');
+INSERT INTO `rfid` VALUES ('85', 'RID_5cff6e1e88eba', 'FID_5cff832418531');
+INSERT INTO `rfid` VALUES ('86', 'RID_5cff6e1e88eba', 'FID_5cff84009828e');
+INSERT INTO `rfid` VALUES ('87', 'RID_5cff6e1e88eba', 'FID_5cff8405c3b06');
+INSERT INTO `rfid` VALUES ('88', 'RID_5cff6e1e88eba', 'FID_5cff83f3cc78b');
+INSERT INTO `rfid` VALUES ('89', 'RID_5cff6e1e88eba', 'FID_5cff83f8a8e50');
+INSERT INTO `rfid` VALUES ('90', 'RID_5cff6e1e88eba', 'FID_5d034aaca2804');
 
-/*!40000 ALTER TABLE `rfid` DISABLE KEYS */;
-INSERT INTO `rfid` VALUES (74,'RID_5cff6e263d96a','FID_5cff83f8a8e50'),(75,'RID_5cff6e263d96a','FID_5d034aaca2804'),(76,'RID_5cff6e263d96a','FID_5d034ac30a39c'),(77,'RID_5cff6e263d96a','FID_5d034abc98b6d'),(78,'RID_5cff6e2bc2b8f','FID_5cff83f8a8e50'),(79,'RID_5cff6e2bc2b8f','FID_5d034aaca2804'),(80,'RID_5cff6e2bc2b8f','FID_5d034ac30a39c'),(81,'RID_5cff6e2bc2b8f','FID_5d034abc98b6d'),(82,'RID_5cff6e1e88eba','FID_5cff8348c6aa5'),(83,'RID_5cff6e1e88eba','FID_5cff834f54be2'),(84,'RID_5cff6e1e88eba','FID_5cff8342a909e'),(85,'RID_5cff6e1e88eba','FID_5cff832418531'),(86,'RID_5cff6e1e88eba','FID_5cff84009828e'),(87,'RID_5cff6e1e88eba','FID_5cff8405c3b06'),(88,'RID_5cff6e1e88eba','FID_5cff83f3cc78b'),(89,'RID_5cff6e1e88eba','FID_5cff83f8a8e50'),(90,'RID_5cff6e1e88eba','FID_5d034aaca2804'),(112,'RID_5d03e3287e235','FID_5cff834f54be2');
-/*!40000 ALTER TABLE `rfid` ENABLE KEYS */;
-
-#
-# Structure for table "role"
-#
-
+-- ----------------------------
+-- Table structure for `role`
+-- ----------------------------
 DROP TABLE IF EXISTS `role`;
 CREATE TABLE `role` (
   `Code` char(255) NOT NULL,
@@ -152,18 +172,18 @@ CREATE TABLE `role` (
   UNIQUE KEY `NameId` (`Name`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
-#
-# Data for table "role"
-#
+-- ----------------------------
+-- Records of role
+-- ----------------------------
+INSERT INTO `role` VALUES ('RID_5cff6e2bc2b8f', '出庫員');
+INSERT INTO `role` VALUES ('RID_5cff6e263d96a', '入庫員');
+INSERT INTO `role` VALUES ('RID_5cff6e1e88eba', '管理員');
+INSERT INTO `role` VALUES ('RID_5cff6de180417', '入賬員');
+INSERT INTO `role` VALUES ('RID_5d03e3287e235', '測試角色');
 
-/*!40000 ALTER TABLE `role` DISABLE KEYS */;
-INSERT INTO `role` VALUES ('RID_5cff6e2bc2b8f','出庫員'),('RID_5cff6e263d96a','入庫員'),('RID_5cff6e1e88eba','管理員'),('RID_5cff6de180417','入賬員'),('RID_5d03e3287e235','測試角色');
-/*!40000 ALTER TABLE `role` ENABLE KEYS */;
-
-#
-# Structure for table "shelfs"
-#
-
+-- ----------------------------
+-- Table structure for `shelfs`
+-- ----------------------------
 DROP TABLE IF EXISTS `shelfs`;
 CREATE TABLE `shelfs` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
@@ -171,40 +191,43 @@ CREATE TABLE `shelfs` (
   `Description` char(255) DEFAULT NULL,
   UNIQUE KEY `id` (`id`),
   UNIQUE KEY `shelfID` (`ShelfID`)
-) ENGINE=MyISAM AUTO_INCREMENT=23 DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM AUTO_INCREMENT=33 DEFAULT CHARSET=utf8;
 
-#
-# Data for table "shelfs"
-#
+-- ----------------------------
+-- Records of shelfs
+-- ----------------------------
+INSERT INTO `shelfs` VALUES ('21', '5A0101G', '');
+INSERT INTO `shelfs` VALUES ('20', '5A0101F', '');
+INSERT INTO `shelfs` VALUES ('19', '5A0101E', '');
+INSERT INTO `shelfs` VALUES ('30', '5A0101A', '');
+INSERT INTO `shelfs` VALUES ('26', '5A0101C', '');
+INSERT INTO `shelfs` VALUES ('23', '5A0101H', '');
+INSERT INTO `shelfs` VALUES ('27', '5A0101D', '');
+INSERT INTO `shelfs` VALUES ('32', '5A0101I', '');
+INSERT INTO `shelfs` VALUES ('31', '5A0101B', '');
 
-/*!40000 ALTER TABLE `shelfs` DISABLE KEYS */;
-INSERT INTO `shelfs` VALUES (21,'5A0101G',''),(20,'5A0101F',''),(19,'5A0101E',''),(25,'5A0101B',''),(26,'5A0101C',''),(23,'5A0101H',''),(27,'5A0101D',''),(29,'5A0101Y','');
-/*!40000 ALTER TABLE `shelfs` ENABLE KEYS */;
-
-#
-# Structure for table "urid"
-#
-
+-- ----------------------------
+-- Table structure for `urid`
+-- ----------------------------
 DROP TABLE IF EXISTS `urid`;
 CREATE TABLE `urid` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `uid` char(255) NOT NULL,
   `rid` char(255) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=77 DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM AUTO_INCREMENT=83 DEFAULT CHARSET=utf8;
 
-#
-# Data for table "urid"
-#
+-- ----------------------------
+-- Records of urid
+-- ----------------------------
+INSERT INTO `urid` VALUES ('63', 'admin', 'RID_5cff6e2bc2b8f');
+INSERT INTO `urid` VALUES ('64', 'admin', 'RID_5cff6e263d96a');
+INSERT INTO `urid` VALUES ('65', 'admin', 'RID_5cff6e1e88eba');
+INSERT INTO `urid` VALUES ('66', 'admin', 'RID_5cff6de180417');
 
-/*!40000 ALTER TABLE `urid` DISABLE KEYS */;
-INSERT INTO `urid` VALUES (63,'admin','RID_5cff6e2bc2b8f'),(64,'admin','RID_5cff6e263d96a'),(65,'admin','RID_5cff6e1e88eba'),(66,'admin','RID_5cff6de180417'),(82,'test','RID_5d03e3287e235');
-/*!40000 ALTER TABLE `urid` ENABLE KEYS */;
-
-#
-# Structure for table "users"
-#
-
+-- ----------------------------
+-- Table structure for `users`
+-- ----------------------------
 DROP TABLE IF EXISTS `users`;
 CREATE TABLE `users` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
@@ -219,12 +242,10 @@ CREATE TABLE `users` (
   PRIMARY KEY (`id`),
   UNIQUE KEY `RowId` (`id`),
   UNIQUE KEY `Uid` (`Uid`)
-) ENGINE=MyISAM AUTO_INCREMENT=7 DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM AUTO_INCREMENT=10 DEFAULT CHARSET=utf8;
 
-#
-# Data for table "users"
-#
-
-/*!40000 ALTER TABLE `users` DISABLE KEYS */;
-INSERT INTO `users` VALUES (3,'admin','admin','$2y$10$X29HAmu7Dpps7/jiJHfBTeOVdymfHBJRvJ3K7DlqIwJg98AE.aGhO','admin','admin','2019-06-18 01:35:02',NULL,'127.0.0.1'),(8,'test','test','$2y$10$LKGLLS4yRNg9O.T2PYQNO.XuoOaSBIplZ4AXt0gTUcGGriglJp7ly','test','test','2019-06-18 01:36:00',NULL,'127.0.0.1');
-/*!40000 ALTER TABLE `users` ENABLE KEYS */;
+-- ----------------------------
+-- Records of users
+-- ----------------------------
+INSERT INTO `users` VALUES ('3', 'admin', 'admin', '$2y$10$X29HAmu7Dpps7/jiJHfBTeOVdymfHBJRvJ3K7DlqIwJg98AE.aGhO', 'admin', 'admin', '2019-06-18 18:08:11', null, '192.168.43.1');
+INSERT INTO `users` VALUES ('9', 'S09264888', '易志平', '$2y$10$FoEwJGsfZmAUUJTTz4Jl2OatagI8F6M90KLDGumrNTv6VW3s1vQAm', '', '', '2019-06-18 15:30:19', null, '127.0.0.1');

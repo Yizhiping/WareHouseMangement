@@ -14,7 +14,8 @@ require_once "MysqlConn.php";
 
 /********************一些环境参数**********************/
 $remoteAddr = __getIP();
-
+$isMobile = isMobile();
+$cssName = $isMobile ? "MainPage_Mobile.css" : "MainPage.css";
 
 /*********************数据库连接************************/
 $db_host = "127.0.0.1";
